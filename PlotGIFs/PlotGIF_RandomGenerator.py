@@ -3,9 +3,11 @@ PlotGIFLibrary is a library for generation, editing and viewing of GIFs / Videos
 '''
 
 # Imports
+import random
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation, PillowWriter
 import numpy as np
+
+import PlotGIFLibrary as PGL
 
 # Main Params
 YData = {}
@@ -13,18 +15,8 @@ XData = {}
 plotData = {}
 
 # Main Functions
-def CreatePlotGIF(plotFig, updateFunc, initFunc, frames=np.linspace(0, 2*np.pi, 64), show=False):
-    animation = FuncAnimation(plotFig, updateFunc, frames, init_func=initFunc)
-    if show:
-        plt.show()
-    return animation
-
-def SavePlotGIF(animation, savePath, fps=25):
-    writer = PillowWriter(fps=fps)
-    animation.save(savePath, writer=writer)
-
 # Random Generator Vis - Visualise the distribution of random number generator in python by visualising the frequency distribution
-import random
+
 
 def RandomGenerator_Vis(numRange=(0, 100), frameLim=(0, 100), nframes=100, show=True):
     global XData
@@ -37,7 +29,7 @@ def RandomGenerator_Vis(numRange=(0, 100), frameLim=(0, 100), nframes=100, show=
     RandomGenerator_CreatePlotFigure()
     YData['maxFreq'] = max(YData['data'])
 
-    return CreatePlotGIF(plotData['fig'], RandomGenerator_PlotUpdate, RandomGenerator_PlotInit, frames, show)
+    return PGL.CreatePlotGIF(plotData['fig'], RandomGenerator_PlotUpdate, RandomGenerator_PlotInit, frames, show)
 
 def RandomGenerator_CreatePlotFigure():
     global plotData
@@ -75,15 +67,15 @@ def RandomGenerator_PlotUpdate(i):
 
 # Driver Code
 # Params
-numRange = (1, 500)
+numRange = (1, 5)
 nframes = 500
 frameLim = (0, 1)
-show = False
-saveGIF = True
+show = True
+saveGIF = False
 savePath = 'GeneratedGIFS/RandomGen_GIF.gif'
 saveFPS = 25
 
 # RunCode
 animation = RandomGenerator_Vis(numRange, frameLim, nframes, show)
 if saveGIF:
-    SavePlotGIF(animation, savePath, saveFPS)
+    PGL.SavePlotGIF(animation, savePath, saveFPS)
