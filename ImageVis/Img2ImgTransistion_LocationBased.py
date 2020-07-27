@@ -22,9 +22,6 @@ def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, N=5, 
     ColoursLocations_1 = ImageColourLocations(I1)
     ColoursLocations_2 = ImageColourLocations(I2)
 
-    print("C1:", ColoursLocations_1)
-    print("C2:", ColoursLocations_2)
-
     # V1 - Assuming Equal No of Locations of Colors in 2 Images
     # Get the Location Map
     print("Calculating Location Map...")
@@ -32,7 +29,6 @@ def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, N=5, 
     for ck in tqdm(ColoursLocations_1.keys()):
         if ck in ColoursLocations_2.keys() and not ck == ','.join(BGColor.astype(str)):
             color = np.array(ck.split(','), int)
-            print(ck, ':', len(ColoursLocations_2[ck]))
             # Check all possible mappings and take mapping with (customisable) movement
             mappings = list(itertools.permutations(range(len(ColoursLocations_2[ck]))))
             minError = -1
@@ -102,6 +98,8 @@ def ImageColourLocations(I):
 
 # Driver Code
 # Params
+RandomImages = True
+
 mainPath = 'TestImgs/'
 imgName_1 = 'Test.png'
 imgName_2 = 'Test2.png'
@@ -121,19 +119,21 @@ plotData = True
 saveData = False
 
 # Run Code
-# Read Images
-I1 = cv2.cvtColor(cv2.imread(mainPath + imgName_1), cv2.COLOR_BGR2RGB)
-I2 = cv2.cvtColor(cv2.imread(mainPath + imgName_2), cv2.COLOR_BGR2RGB)
+I1 = None
+I2 = None
 
-# Custom Images
-I1 = np.zeros(I1.shape, int)
-I2 = np.zeros(I2.shape, int)
+if not RandomImages:
+    # Read Images
+    I1 = cv2.cvtColor(cv2.imread(mainPath + imgName_1), cv2.COLOR_BGR2RGB)
+    I2 = cv2.cvtColor(cv2.imread(mainPath + imgName_2), cv2.COLOR_BGR2RGB)
 
-I1[:2, :2] += np.array([0, 255, 255], int)
-I2[0, 0] += np.array([0, 255, 255], int)
-I2[0, -1] += np.array([0, 255, 255], int)
-I2[-1, 0] += np.array([0, 255, 255], int)
-I2[-1, -1] += np.array([0, 255, 255], int)
+else:
+    # Random Images
+    Colors = [[255, 255, 0], [0, 0, 255]]
+    ColorCounts = [4, 4]
+    imgSize = (10, 10, 3)
+    I1 = Utils.GenerateRandomImage(imgSize, BGColor, Colors, ColorCounts)
+    I2 = Utils.GenerateRandomImage(imgSize, BGColor, Colors, ColorCounts)
 
 # Resize and Show
 I1, I2 = Utils.ResizeImages(I1, I2, ResizeFunc, ResizeParams)

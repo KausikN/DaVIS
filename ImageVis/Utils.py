@@ -4,6 +4,7 @@ This Script allows generating a transistion from 1 image to another or a chain o
 
 # Imports
 import cv2
+import random
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
@@ -110,4 +111,21 @@ def GenerateGradient_LinearRadial(innerColor, outerColor, imgSize):
     return I
 
 
-            
+def GenerateRandomImage(imgSize, BGColor, Colors, ColorCounts):
+    I = np.ones(imgSize, int)*BGColor
+    totalPixelCount = imgSize[0]*imgSize[1]
+    colorPixelsCount = sum(ColorCounts)
+    BGColorCount = totalPixelCount - colorPixelsCount
+    if BGColorCount >= 0:
+        order = np.array([-1]*totalPixelCount)
+        curIndex = 0
+        for i in range(len(ColorCounts)):
+            order[curIndex : curIndex + ColorCounts[i]] = i
+            curIndex += ColorCounts[i]
+        random.shuffle(order)
+    I_Colors = np.reshape(np.array(order), (imgSize[0], imgSize[1]))
+    for i in range(I_Colors.shape[0]):
+        for j in range(I_Colors.shape[1]):
+            if not I_Colors[i, j] == -1:
+                I[i, j] = Colors[I_Colors[i, j]]
+    return I
