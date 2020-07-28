@@ -4,18 +4,18 @@ This Script allows generating a transistion from 1 image to another or a chain o
 
 # Imports
 import cv2
-import itertools
 import numpy as np
 import matplotlib.pyplot as plt
 
 from tqdm import tqdm
 
 import Utils
+import ImageSimplify
 
 # Main Functions
 # Location Based Transistion - 2 Images
 # V1 - Works only for exact pixel value matches in different locations
-def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, N=5, BGColor=np.array([0, 0, 0])):
+def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, MappingFunc, N=5, BGColor=np.array([0, 0, 0])):
     GeneratedImgs = []
 
     # Get Locations of Colours in each image
@@ -29,21 +29,8 @@ def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, N=5, 
     for ck in tqdm(ColoursLocations_1.keys()):
         if ck in ColoursLocations_2.keys() and not ck == ','.join(BGColor.astype(str)):
             color = np.array(ck.split(','), int)
-            # Check all possible mappings and take mapping with (customisable) movement
-            mappings = list(itertools.permutations(range(len(ColoursLocations_2[ck]))))
-            minError = -1
-            minError_Mapping = None
-            for mapping in tqdm(mappings):
-                Error = 0
-                for i in range(len(ColoursLocations_2[ck])):
-                    Error += ((ColoursLocations_1[ck][i][0]-ColoursLocations_2[ck][mapping[i]][0])**2 + (ColoursLocations_1[ck][i][1]-ColoursLocations_2[ck][mapping[i]][1])**2)**(0.5)
-                if minError == -1 or Error < minError:
-                    minError = Error
-                    minError_Mapping = mapping
-            ChosenMapping = []
-            for i in range(len(ColoursLocations_2[ck])):
-                ChosenMapping.append([ColoursLocations_1[ck][i], ColoursLocations_2[ck][minError_Mapping[i]]])
-            LocationMap[ck] = ChosenMapping
+            BestMapping = MappingFunc(ColoursLocations_1[ck], ColoursLocations_2[ck])
+            LocationMap[ck] = BestMapping
 
     # Generate Movement Transistion between Images using Custom Transistion Function
     NColorsAdded_Imgs = []
@@ -99,6 +86,7 @@ def ImageColourLocations(I):
 # Driver Code
 # Params
 RandomImages = True
+SimplifyImages = False
 
 mainPath = 'TestImgs/'
 imgName_1 = 'Test.png'
@@ -107,16 +95,17 @@ imgName_2 = 'Test2.png'
 BGColor = [0, 0, 0]
 
 TransistionFunc = Utils.LinearTransistion
+MappingFunc = Utils.Mapping_maxDist
 
 ResizeFunc = Utils.Resize_MaxSize
 ResizeParams = None
 
 N = 50
 
-displayDelay = 0.01
+displayDelay = 0.0001
 
-plotData = True
-saveData = False
+plotData = False
+saveData = True
 
 # Run Code
 I1 = None
@@ -129,11 +118,34 @@ if not RandomImages:
 
 else:
     # Random Images
-    Colors = [[255, 255, 0], [0, 0, 255]]
-    ColorCounts = [4, 4]
-    imgSize = (10, 10, 3)
+    # Params
+    imgSize = (100, 100, 3)
+    N_Colors = 5
+    ColorCount_Range = (0, 50)
+    Colors = list(np.random.randint(0, 255, (N_Colors, 3)))
+    ColorCounts = list(np.random.randint(ColorCount_Range[0], ColorCount_Range[1], N_Colors))
+
     I1 = Utils.GenerateRandomImage(imgSize, BGColor, Colors, ColorCounts)
     I2 = Utils.GenerateRandomImage(imgSize, BGColor, Colors, ColorCounts)
+
+    # I1 = np.zeros(imgSize, int)
+    # Color = [255, 255, 0]
+    # I1[0, :] = Color
+    # I1[-1, :] = Color
+    # I1[:, 0] = Color
+    # I1[:, -1] = Color
+    # I2 = I1.copy()
+
+if SimplifyImages:
+    # Image Color Simplification
+    # Params
+    maxExtraColours = 5
+    minColourDiff = 0
+    DiffFunc = ImageSimplify.CheckColourCloseness_Dist_L2Norm
+    DistanceFunc = ImageSimplify.EuclideanDistance
+
+    I1 = ImageSimplify.ImageSimplify_ColorBased(I1, maxExtraColours, minColourDiff, DiffFunc, DistanceFunc)
+    I2 = ImageSimplify.ImageSimplify_ColorBased(I2, maxExtraColours, minColourDiff, DiffFunc, DistanceFunc)
 
 # Resize and Show
 I1, I2 = Utils.ResizeImages(I1, I2, ResizeFunc, ResizeParams)
@@ -145,8 +157,15 @@ if plotData:
     plt.show()
 
 # Generate Transistion Images
-GeneratedImgs = I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, N, np.array(BGColor))
+GeneratedImgs = I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, MappingFunc, N, np.array(BGColor))
 
 # Display
 if plotData:
     Utils.DisplayImageSequence(GeneratedImgs, displayDelay)
+# Save
+if saveData:
+    savePath = 'TestImgs/Test.gif'
+    mode = 'gif'
+    frameSize = (imgSize[0], imgSize[1])
+    fps = 25
+    Utils.SaveImageSequence(GeneratedImgs, savePath, mode=mode, frameSize=None, fps=fps)

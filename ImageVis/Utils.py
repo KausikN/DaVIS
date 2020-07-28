@@ -5,6 +5,8 @@ This Script allows generating a transistion from 1 image to another or a chain o
 # Imports
 import cv2
 import random
+import imageio
+import itertools
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
@@ -34,6 +36,74 @@ def DisplayImageSequence(ImgSeq, delay=1):
 
         plt.pause(delay)
         imgIndex = (imgIndex + 1) % N
+
+def SaveImageSequence(ImgSeq, path, mode='gif', frameSize=None, fps=25):
+    # modes
+    # gif
+    if mode in ['gif', 'GIF', 'G', 'g']:
+        imageio.mimsave(path, ImgSeq)
+    # Video
+    elif mode in ['V', 'v', 'Video', 'video', 'VIDEO', 'VID', 'vid']:
+        if frameSize == None:
+            frameSize = (ImgSeq[0].shape[0], ImgSeq[0].shape[1])
+        vid = cv2.VideoWriter(path, cv2.VideoWriter_fourcc(*'DIVX'), fps, frameSize)
+        for i in range(len(ImgSeq)):
+            vid.write(ImgSeq[i])
+        vid.release()
+    # Images
+    else:
+        for i in range(len(ImgSeq)):
+            cv2.imwrite(path + str(i+1), ImgSeq[i])
+
+
+# Mapping Functions
+# Mapping Functions
+def Mapping_BruteForce(L1, L2):
+    # Check all possible mappings and take mapping with (customisable) movement
+    mappings = list(itertools.permutations(range(len(L2))))
+    minError = -1
+    minError_Mapping = None
+    for mapping in tqdm(mappings):
+        Error = 0
+        for i in range(len(L2)):
+            Error += ((L1[i][0]-L2[mapping[i]][0])**2 + (L1[i][1]-L2[mapping[i]][1])**2)**(0.5)
+        if minError == -1 or Error < minError:
+            minError = Error
+            minError_Mapping = mapping
+
+    ChosenMapping = []
+    for i in range(len(L2)):
+        ChosenMapping.append([L1[i], L2[minError_Mapping[i]]])
+        
+    return ChosenMapping
+
+def Mapping_minDist(L1, L2):
+    minDist_Mapping = []
+    for p1 in L1:
+        minDist = -1
+        minDist_Point = -1
+        for p2 in L2:
+            dist = ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**(0.5)
+            if minDist == -1 or dist < minDist:
+                minDist = dist
+                minDist_Point = p2.copy()
+        minDist_Mapping.append([p1, minDist_Point])
+        L2.remove(minDist_Point)
+    return minDist_Mapping
+
+def Mapping_maxDist(L1, L2):
+    maxDist_Mapping = []
+    for p1 in L1:
+        maxDist = -1
+        maxDist_Point = -1
+        for p2 in L2:
+            dist = ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**(0.5)
+            if maxDist == -1 or dist > maxDist:
+                maxDist = dist
+                maxDist_Point = p2.copy()
+        maxDist_Mapping.append([p1, maxDist_Point])
+        L2.remove(maxDist_Point)
+    return maxDist_Mapping
 
 # Transistion Functions
 def LinearTransistion(c1, c2, N):
