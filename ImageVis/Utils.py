@@ -57,8 +57,8 @@ def SaveImageSequence(ImgSeq, path, mode='gif', frameSize=None, fps=25):
 
 
 # Mapping Functions
-# Mapping Functions
-def Mapping_BruteForce(L1, L2):
+# Location Only Mapping Functions
+def Mapping_BruteForce(L1, L2, options=None):
     # Check all possible mappings and take mapping with (customisable) movement
     mappings = list(itertools.permutations(range(len(L2))))
     minError = -1
@@ -77,7 +77,7 @@ def Mapping_BruteForce(L1, L2):
         
     return ChosenMapping
 
-def Mapping_minDist(L1, L2):
+def Mapping_minDist(L1, L2, options=None):
     minDist_Mapping = []
     for p1 in L1:
         minDist = -1
@@ -91,7 +91,7 @@ def Mapping_minDist(L1, L2):
         L2.remove(minDist_Point)
     return minDist_Mapping
 
-def Mapping_maxDist(L1, L2):
+def Mapping_maxDist(L1, L2, options=None):
     maxDist_Mapping = []
     for p1 in L1:
         maxDist = -1
@@ -105,8 +105,57 @@ def Mapping_maxDist(L1, L2):
         L2.remove(maxDist_Point)
     return maxDist_Mapping
 
+# Pixel Mapping Functions - Location and Pixel Values
+def Mapping_LocationColorCombined(L1, C1, L2, C2, options=None):
+    # Params
+    C_L_Ratio = 0.5
+    ColorSign = 1
+    LocationSign = 1
+    tqdm_disable = False
+
+    if not options == None:
+        C_L_Ratio = options['C_L_Ratio']
+        ColorSign = options['ColorSign']
+        LocationSign = options['LocationSign']
+        if 'tqdm_disable' in options.keys():
+            tqdm_disable = options['tqdm_disable']
+
+    # 2 shud always have more or equal elements than 1
+    swapped = False
+    if len(L1) > len(L2):
+        swapped = True
+        L1, L2 = L2, L1
+        C1, C2 = C2, C1
+
+    # Map to closest (value and location)
+    minDist_LocationMap = []
+    minDist_ColorMap = []
+    for i in tqdm(range(len(L1)), disable=tqdm_disable):
+        p1 = L1[i]
+        c1 = C1[i]
+        minDist = -1
+        minDist_Index = -1
+        for j in range(len(L2)):
+            p2 = L2[j]
+            c2 = C2[j]
+            locdist = ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**(0.5)
+            colordist = np.sum((np.array(c1) - np.array(c2))**2)**(0.5)
+            dist = locdist*(1-colordist)*LocationSign + C_L_Ratio*colordist*ColorSign
+            if minDist == -1 or dist < minDist:
+                minDist = dist
+                minDist_Index = j
+        if swapped:
+            minDist_LocationMap.append([L2[minDist_Index], p1])
+            minDist_ColorMap.append([C2[minDist_Index], c1])
+        else:
+            minDist_LocationMap.append([p1, L2[minDist_Index]])
+            minDist_ColorMap.append([c1, C2[minDist_Index]])
+        L2.pop(minDist_Index)
+        C2.pop(minDist_Index)
+    return minDist_LocationMap, minDist_ColorMap
+
 # Transistion Functions
-def LinearTransistion(c1, c2, N):
+def LinearTransistion(c1, c2, N, options=None):
     C_Gen = None
     # If colours
     if type(c1) == type([]):
@@ -119,8 +168,8 @@ def LinearTransistion(c1, c2, N):
 
 # Resize Functions
 def Resize_CustomSize(I1, I2, Size):
-    I1 = cv2.resize(I1, Size)
-    I2 = cv2.resize(I2, Size)
+    I1 = cv2.resize(I1, (Size[0], Size[1]))
+    I2 = cv2.resize(I2, (Size[0], Size[1]))
     return I1, I2
 
 def Resize_MaxSize(I1, I2):

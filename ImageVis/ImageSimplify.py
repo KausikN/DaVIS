@@ -166,4 +166,4 @@ def ImageSimplify_ColorBased(I, maxExtraColours, minColourDiff=50, DiffFunc=Chec
     print("Replacing Pixels with Clusters...")
     I_r, ReplacementsCounts = Image_PixelClusterReplace(I, TopColours, ColoursCount, DistanceFunc=DistanceFunc)
     
-    return I_r
+    return I_r, TopColours

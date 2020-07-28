@@ -15,7 +15,7 @@ import ImageSimplify
 # Main Functions
 # Location Based Transistion - 2 Images
 # V1 - Works only for exact pixel value matches in different locations
-def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, MappingFunc, N=5, BGColor=np.array([0, 0, 0])):
+def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, TransistionParams, MappingFunc, MappingParams, N=5, BGColor=np.array([0, 0, 0])):
     GeneratedImgs = []
 
     # Get Locations of Colours in each image
@@ -29,7 +29,7 @@ def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, Mappi
     for ck in tqdm(ColoursLocations_1.keys()):
         if ck in ColoursLocations_2.keys() and not ck == ','.join(BGColor.astype(str)):
             color = np.array(ck.split(','), int)
-            BestMapping = MappingFunc(ColoursLocations_1[ck], ColoursLocations_2[ck])
+            BestMapping = MappingFunc(ColoursLocations_1[ck], ColoursLocations_2[ck], MappingParams)
             LocationMap[ck] = BestMapping
 
     # Generate Movement Transistion between Images using Custom Transistion Function
@@ -45,9 +45,9 @@ def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, Mappi
         color = np.array(ck.split(','), int)
         for comb in Mapping:
             # X Movement
-            X_Mov = TransistionFunc(comb[0][0], comb[1][0], N)
+            X_Mov = TransistionFunc(comb[0][0], comb[1][0], N, TransistionParams)
             # Y Movement
-            Y_Mov = TransistionFunc(comb[0][1], comb[1][1], N)
+            Y_Mov = TransistionFunc(comb[0][1], comb[1][1], N, TransistionParams)
             # Apply
             for n in range(N):
                 if NColorsAdded_Imgs[n][X_Mov[n], Y_Mov[n]] == 0:
@@ -63,8 +63,7 @@ def I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, Mappi
                     GeneratedImgs[n][i, j] = GeneratedImgs[n][i, j] / NColorsAdded_Imgs[n][i, j]
     
     return GeneratedImgs
-        
-                    
+      
 
 # Colour Describe Function
 def ImageColourLocations(I):
@@ -95,7 +94,10 @@ imgName_2 = 'Test2.png'
 BGColor = [0, 0, 0]
 
 TransistionFunc = Utils.LinearTransistion
+TransistionParams = None
+
 MappingFunc = Utils.Mapping_maxDist
+MappingParams = None
 
 ResizeFunc = Utils.Resize_MaxSize
 ResizeParams = None
@@ -104,8 +106,8 @@ N = 50
 
 displayDelay = 0.0001
 
-plotData = False
-saveData = True
+plotData = True
+saveData = False
 
 # Run Code
 I1 = None
@@ -157,7 +159,7 @@ if plotData:
     plt.show()
 
 # Generate Transistion Images
-GeneratedImgs = I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, MappingFunc, N, np.array(BGColor))
+GeneratedImgs = I2I_Transistion_LocationBased_ExactColorMatch(I1, I2, TransistionFunc, TransistionParams, MappingFunc, MappingParams, N, np.array(BGColor))
 
 # Display
 if plotData:
