@@ -23,7 +23,7 @@ def ResizeImages(I1, I2, ResizeFunc=None, ResizeParams=None):
         else:
             I1, I2 = ResizeFunc(I1, I2, ResizeParams)
     print("After Resizing: I1:", I1.shape, "I2:", I2.shape)
-    return I1, I2
+    return I1, I2, I1.shape
 
 def DisplayImageSequence(ImgSeq, delay=1):
     imgIndex = 0
@@ -168,14 +168,18 @@ def LinearTransistion(c1, c2, N, options=None):
 
 # Resize Functions
 def Resize_CustomSize(I1, I2, Size):
-    I1 = cv2.resize(I1, (Size[0], Size[1]))
-    I2 = cv2.resize(I2, (Size[0], Size[1]))
+    if not Size == (I1.shape[0], I1.shape[1]):
+        I1 = cv2.resize(I1, (Size[0], Size[1]))
+    if not Size == (I2.shape[0], I2.shape[1]):
+        I2 = cv2.resize(I2, (Size[0], Size[1]))
     return I1, I2
 
 def Resize_MaxSize(I1, I2):
     CommonSize = (max(I1.shape[0], I2.shape[0]), max(I1.shape[1], I2.shape[1]))
-    I1 = cv2.resize(I1, CommonSize)
-    I2 = cv2.resize(I2, CommonSize)
+    if not CommonSize == (I1.shape[0], I1.shape[1]):
+        I1 = cv2.resize(I1, CommonSize)
+    if not CommonSize == (I2.shape[0], I2.shape[1]):
+        I2 = cv2.resize(I2, CommonSize)
     return I1, I2
 
 def Resize_PaddingFillMaxSize(I1, I2):

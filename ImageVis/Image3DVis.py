@@ -84,8 +84,8 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'Test.jpg'
-imgSize = (100, 100)
+imgName = 'DepthImage.png'
+imgSize = (25, 25)
 
 DepthFunc = DepthFunc_GrayScaleDepth
 options = {}

@@ -15,17 +15,18 @@ import ImageSimplify
 
 # Main Functions
 # V2 - Works with any 2 images - Matches Location and Color and does Transistion on both location and color
-def I2I_Transistion_LocationColorBased(I1, I2, TransistionFunc_Location, TransistionParams_Location, TransistionFunc_Color, TransistionParams_Color, MappingFunc, MappingParams, N=5, BGColors=[[np.array([0, 0, 0])], [np.array([0, 0, 0])]]):
-    # # Calculate Pixel Mapping
-    # LocationMap, ColorMap = CalculatePixelMap(I1, I2, MappingFunc, MappingParams, BGColors)
+def I2I_Transistion_LocationColorBased(I1, I2, TransistionFunc_Location, TransistionParams_Location, TransistionFunc_Color, TransistionParams_Color, MappingFunc, MappingParams, N=5, BGColors=[[np.array([0, 0, 0])], [np.array([0, 0, 0])]], loadData=False):
+    if not loadData:
+        # Calculate Pixel Mapping
+        LocationMap, ColorMap = CalculatePixelMap(I1, I2, MappingFunc, MappingParams, BGColors)
 
-    # # Save Maps
-    # pickle.dump(LocationMap, open(mainPath + 'LocationMap.p', 'wb'))
-    # pickle.dump(ColorMap, open(mainPath + 'ColorMap.p', 'wb'))
-
-    # Load Maps
-    LocationMap = pickle.load(open(mainPath + 'LocationMap.p', 'rb'))
-    ColorMap = pickle.load(open(mainPath + 'ColorMap.p', 'rb'))
+        # Save Maps
+        pickle.dump(LocationMap, open(mainPath + 'LocationMap.p', 'wb'))
+        pickle.dump(ColorMap, open(mainPath + 'ColorMap.p', 'wb'))
+    else:
+        # Load Maps
+        LocationMap = pickle.load(open(mainPath + 'LocationMap.p', 'rb'))
+        ColorMap = pickle.load(open(mainPath + 'ColorMap.p', 'rb'))
 
     # Calculate Transistion Images
     GeneratedImgs = ApplyTransistionToMapping(LocationMap, ColorMap, BGColors)
@@ -125,10 +126,10 @@ RandomImages = False
 SimplifyImages = True
 
 mainPath = 'TestImgs/'
-imgName_1 = 'Test1.jpg'
-imgName_2 = 'Test2.jpg'
+imgName_1 = 'LOL.png'
+imgName_2 = 'Valo_1.jpg'
 
-imgSize = (100, 100, 3)
+imgSize = (175, 100, 3)
 
 BGColors = [[[0, 0, 0]], [[0, 0, 0]]]
 ignoreColors_N = 1
@@ -142,14 +143,16 @@ MappingFunc = Utils.Mapping_LocationColorCombined
 MappingParams = {'C_L_Ratio': 0.5, 'ColorSign': 1, 'LocationSign': 1}
 
 ResizeFunc = Utils.Resize_CustomSize
-ResizeParams = (100, 100, 3)
+ResizeParams = imgSize
 
 N = 50
+ImagePaddingCount = 5
 
 displayDelay = 0.0001
 
-plotData = True
+plotData = False
 saveData = True
+loadData = True
 
 # Run Code
 I1 = None
@@ -192,7 +195,7 @@ else:
     # I2[:, -1] = Color2
 
 # Resize
-I1, I2 = Utils.ResizeImages(I1, I2, ResizeFunc, ResizeParams)
+I1, I2, imgSize = Utils.ResizeImages(I1, I2, ResizeFunc, ResizeParams)
 
 if SimplifyImages:
     # Image Color Simplification
@@ -217,10 +220,11 @@ if plotData:
     plt.show()
 
 # Generate Transistion Images
-GeneratedImgs = I2I_Transistion_LocationColorBased(I1, I2, TransistionFunc_Location, TransistionParams_Location, TransistionFunc_Color, TransistionParams_Color, MappingFunc, MappingParams, N, np.array(BGColors))
+GeneratedImgs = I2I_Transistion_LocationColorBased(I1, I2, TransistionFunc_Location, TransistionParams_Location, TransistionFunc_Color, TransistionParams_Color, MappingFunc, MappingParams, N, np.array(BGColors), loadData)
 # Add Padding of I1 and I2 at ends to extend duration
-GeneratedImgs.insert(0, I1)
-GeneratedImgs.append(I2)
+for i in range(ImagePaddingCount):
+    GeneratedImgs.insert(0, I1)
+    GeneratedImgs.append(I2)
 
 # Save
 if saveData:
@@ -231,5 +235,5 @@ if saveData:
     Utils.SaveImageSequence(GeneratedImgs, savePath, mode=mode, frameSize=None, fps=fps)
 
 # Display
-if plotData:
-    Utils.DisplayImageSequence(GeneratedImgs, displayDelay)
+# if plotData:
+Utils.DisplayImageSequence(GeneratedImgs, displayDelay)
