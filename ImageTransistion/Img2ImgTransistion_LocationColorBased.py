@@ -126,10 +126,10 @@ RandomImages = False
 SimplifyImages = True
 
 mainPath = 'TestImgs/'
-imgName_1 = 'LOL.png'
-imgName_2 = 'Valo_1.jpg'
+imgName_1 = 'Thresh.jpeg'
+imgName_2 = 'Scenery.jpeg'
 
-imgSize = (175, 100, 3)
+imgSize = (100, 100, 3)
 
 BGColors = [[[0, 0, 0]], [[0, 0, 0]]]
 ignoreColors_N = 1
@@ -150,7 +150,7 @@ ImagePaddingCount = 5
 
 displayDelay = 0.0001
 
-plotData = False
+plotData = True
 saveData = True
 loadData = True
 
@@ -225,7 +225,6 @@ GeneratedImgs = I2I_Transistion_LocationColorBased(I1, I2, TransistionFunc_Locat
 for i in range(ImagePaddingCount):
     GeneratedImgs.insert(0, I1)
     GeneratedImgs.append(I2)
-
 # Save
 if saveData:
     savePath = 'TestImgs/Test.gif'
