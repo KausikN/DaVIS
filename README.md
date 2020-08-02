@@ -7,4 +7,4 @@
 ## Temporal Plotting - Plot GIFS
    - GIFs to visualise how plots change over time
    - Visualise Output Distribution on python's inbuilt Random Function
-   ![3D Image Plot](https://github.com/KausikN/DaVIS/blob/master/PlotGIFs/GeneratedGIFS/RandomGen_GIF.gif)
+   ![Temporal Plotting](https://github.com/KausikN/DaVIS/blob/master/PlotGIFs/GeneratedGIFS/RandomGen_GIF.gif)
