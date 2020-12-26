@@ -3,7 +3,11 @@ Algorithm Visualisation for rthe Collatz Conjecture
 '''
 
 # Imports
+import functools
 import matplotlib.pyplot as plt
+from tqdm import tqdm
+from Libraries import PlotAnimateLibrary as PAL
+from Libraries import SeriesVisualiseLibrary as SVL
 
 # Main Functions
 # Algorithm Functions
@@ -25,22 +29,25 @@ def CollatzConjecture_Converge(startVal, max_iters=-1):
 
     return values
 
-# Visualisation Functions
-def CollatzConjecture_Visualise(values):
-    print("No of iters:", len(values)-1)
-    values_str = []
-    for v in values:
-        values_str.append(str(v))
-    print("Trace:", ' '.join(values_str))
-    plt.plot(list(range(1, len(values)+1)), values)
-    plt.scatter(list(range(1, len(values)+1)), values)
-    plt.show()
-
 # Driver Code
 # Params
-startValue = 10
+ConvergeFunc = CollatzConjecture_Converge
+# Params
+
+# Converge for a value
+# Params
+startVal = 5798
+max_iters = -1
 # Params
 
 # RunCode
-trace = CollatzConjecture_Converge(startValue)
-CollatzConjecture_Visualise(trace)
+SVL.Series_ValueConvergeVis(ConvergeFunc, startVal, max_iters, titles=['Iteration', 'Value', " Collatz Convergence for " + str(startVal)])
+
+# Converge Over Many Values
+# Params
+computeRange = [10, 100, 1]
+plotSkip = 1
+# Params
+
+# RunCode
+iters = SVL.Series_RangeConvergeVis(ConvergeFunc, computeRange, plotSkip=plotSkip, titles=['Start Value', 'Convergence Iterations Count', 'Values vs Collatz Convergence Time'])

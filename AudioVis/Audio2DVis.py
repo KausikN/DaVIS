@@ -79,7 +79,7 @@ def DisplayFrequencyData(frequencies, times, spectrogram):
 # Driver Code
 # Params
 mainPath = 'TestAudio/'
-fileName = 'DN.mp3'
+fileName = 'Iruvar.mp3'
 offset = 0.0#np.random.randint(1, 300) / 10
 duration = 5.0
 

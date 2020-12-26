@@ -7,7 +7,7 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-import PlotGIFLibrary as PGL
+from Libraries import PlotAnimateLibrary as PAL
 
 # Main Params
 YData = {}
@@ -29,7 +29,7 @@ def RandomGenerator_Vis(numRange=(0, 100), frameLim=(0, 100), nframes=100, show=
     RandomGenerator_CreatePlotFigure()
     YData['maxFreq'] = max(YData['data'])
 
-    return PGL.CreatePlotGIF(plotData['fig'], RandomGenerator_PlotUpdate, RandomGenerator_PlotInit, frames, show)
+    return PAL.CreatePlotGIF(plotData['fig'], RandomGenerator_PlotUpdate, RandomGenerator_PlotInit, frames, show)
 
 def RandomGenerator_CreatePlotFigure():
     global plotData
@@ -52,6 +52,7 @@ def RandomGenerator_PlotInit():
     plotData['ax'].set_ylim(YData['lim'][0], YData['lim'][1])
 
 def RandomGenerator_PlotUpdate(i):
+    print(i)
     global XData
     global YData
     global plotData
@@ -78,4 +79,4 @@ saveFPS = 25
 # RunCode
 animation = RandomGenerator_Vis(numRange, frameLim, nframes, show)
 if saveGIF:
-    PGL.SavePlotGIF(animation, savePath, saveFPS)
+    PAL.SavePlotGIF(animation, savePath, saveFPS)
