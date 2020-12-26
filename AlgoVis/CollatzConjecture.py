@@ -1,5 +1,6 @@
 '''
 Algorithm Visualisation for rthe Collatz Conjecture
+Link: https://www.youtube.com/watch?v=5mFpVDpKX70
 '''
 
 # Imports
