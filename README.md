@@ -13,7 +13,7 @@
    - Plotting images in 3D using depth based on various factors
    
    ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_DepthImage.png)
-   ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_DepthImageModel.png)
+   ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_DepthImageModel.PNG)
 
 ## AlgoVis
 ### Random Number Generation
