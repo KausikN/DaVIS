@@ -27,11 +27,19 @@
    ![Collatz Conjecture 1](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceSingleValue.png)
    ![Collatz Conjecture 2](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceItersCount.png)
    
+   - Video on Collatz Conjecture
+   
+   [![Collatz Conjecture Video](https://img.youtube.com/vi/5mFpVDpKX70/0.jpg)](https://www.youtube.com/watch?v=5mFpVDpKX70)
+   
 ### Bifurcate Population Convergence
    - Visualise Bifurcate Population Convergence
    
    ![Bifurcate 1](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Bifurcation_PopulationConvergence.png)
    ![Bifurcate 2](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Bifurcation_BifurcationPlot.png)
+      
+   - Video on Bifurcate Population Conjecture
+   
+   [![Bifurcate Population Video](https://img.youtube.com/vi/ovJcsL7vyrk/0.jpg)](https://www.youtube.com/watch?v=ovJcsL7vyrk)
    
 ### Digit Sum and Multiply Convergence
    - Visualise Digit Sum and Multiply Convergence
