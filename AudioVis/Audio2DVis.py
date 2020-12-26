@@ -62,6 +62,9 @@ def LoadAudio(filePath, sample_rate=None, mono=True, offset=0.0, duration=None, 
 
 def DisplayAudio_WavePlot(audio, sample_rate):
     librosa.display.waveplot(audio, sr=sample_rate, max_points=50000.0, x_axis='time', offset=0.0, max_sr=1000)
+    plt.xlabel('Time')
+    plt.ylabel('Amplitude')
+    plt.title('Audio Wave')
     plt.show()
 
 def GetFrequencyData(audio, sample_rate):
@@ -74,6 +77,7 @@ def DisplayFrequencyData(frequencies, times, spectrogram):
 
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
+    plt.title('Audio Spectrogram')
     plt.show()
 
 # Driver Code

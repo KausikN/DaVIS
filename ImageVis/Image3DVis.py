@@ -300,8 +300,8 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'P.jpeg'
-imgSize = (10, 10)
+imgName = 'DepthImage.png'
+imgSize = (100, 100)
 keepAspectRatio = True
 simplify = False
 

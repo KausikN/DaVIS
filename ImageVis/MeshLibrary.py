@@ -42,12 +42,12 @@ def DepthImage_to_Terrain(depths, I, ImagePath, name='Test', exportPath=None):
         open3d.visualization.draw_geometries([mesh])
         open3d.io.write_triangle_mesh(exportPath, mesh)
         
-        loader = Loader(ShowBase)
-        model = loader.loadModel(exportPath)
-        # model.reparentTo(panda3d.render)
+        # loader = Loader(ShowBase)
+        # model = loader.loadModel(exportPath)
+        # # model.reparentTo(panda3d.render)
         
-        tex = loader.loadTexture(ImagePath)
-        model.setTexture(tex, 1)
+        # tex = loader.loadTexture(ImagePath)
+        # model.setTexture(tex, 1)
     
     return mesh
 
