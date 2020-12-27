@@ -300,10 +300,10 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'iiit.png'
+imgName = 'DepthImage.png'
 imgSize = (100, 100)
 keepAspectRatio = True
-simplify = True
+simplify = False
 
 DepthFunc = DepthFunc_GrayScaleDepth
 options = {}
@@ -313,9 +313,9 @@ options['DepthRange'] = [0, 255]
 
 DepthScale = 1
 DepthLimits = None
-ExportDepthMultiplier = 10
+ExportDepthMultiplier = 25
 
-display = True
+display = False
 subPlots = False
 
 method = 2
