@@ -10,39 +10,52 @@ import matplotlib.cm as cm
 from Libraries import PlotAnimateLibrary as PAL
 
 # Main Functions
-# Visualisation Functions
-def Series_GroupConvergeVis(ConvergeFunc, computeValues, plotSkip=1, max_iters=-1, titles=['values', 'iters', 'Values vs Iters']):
+# Execution Functions
+def Series_GroupExecute(ConvergeFunc, computeValues):
     iters = []
-    for i in tqdm(computeValues):
-        trace = ConvergeFunc(i, max_iters=max_iters)
-        iters.append(len(trace)-1)
-    PAL.List_PlotVisualise(iters[::plotSkip], titles=titles)
-    
-    return iters
-
-def Series_RangeConvergeVis(ConvergeFunc, computeRange, plotSkip=1, max_iters=-1, titles=['values', 'iters', 'Values vs Iters']):
-    iters = []
-    for i in tqdm(range(computeRange[0], computeRange[1]+1, computeRange[2])):
-        trace = ConvergeFunc(i, max_iters=max_iters)
-        iters.append(len(trace)-1)
-    PAL.List_PlotVisualise(iters[::plotSkip], titles=titles)
-    
-    return iters
-
-def Series_ValueConvergeVis(ConvergeFunc, startVal, max_iters=-1, titles=['values', 'iters', 'Values vs Iters']):
-    trace = ConvergeFunc(startVal, max_iters=max_iters)
-    PAL.List_PlotVisualise(trace, titles=titles)
-    return trace
-
-def Series_GroupSubPlotConvergeVis(ConvergeFunc, computeValues, plotSkip=1, max_iters=-1, titles=['values', 'iters', 'Values vs Iters']):
     traces = []
-    iters = []
     for i in tqdm(computeValues):
-        trace = ConvergeFunc(i, max_iters=max_iters)
-        iters.append(len(trace)-1)
+        trace = ConvergeFunc(i)
         traces.append(trace)
+        iters.append(len(trace)-1)
+    return traces, iters
 
-    plt.title(title[2])
+def Series_RangeExecute(ConvergeFunc, computeRange):
+    iters = []
+    traces = []
+    for i in tqdm(range(computeRange[0], computeRange[1]+1, computeRange[2])):
+        trace = ConvergeFunc(i)
+        traces.append(trace)
+        iters.append(len(trace)-1)
+    return traces, iters
+
+def Series_ValueExecute(ConvergeFunc, startVal):
+    trace = ConvergeFunc(startVal)
+    return trace, len(trace)
+
+# Visualisation Functions
+def Series_ValueConvergeVis(ConvergeFunc, startVal, titles=['values', 'iters', 'Values vs Iters'], annotate=False):
+    trace, iterCount = Series_ValueExecute(ConvergeFunc, startVal)
+    PAL.List_PlotVisualise(trace, titles=titles, annotate=annotate)
+
+    return trace, iterCount
+
+def Series_GroupConvergeVis(ConvergeFunc, computeValues, plotSkip=1, titles=['values', 'iters', 'Values vs Iters']):
+    traces, iters = Series_GroupExecute(ConvergeFunc, computeValues)
+    PAL.List_PlotVisualise(iters[::plotSkip], titles=titles)
+    
+    return traces, iters
+
+def Series_RangeConvergeVis(ConvergeFunc, computeRange, plotSkip=1, titles=['values', 'iters', 'Values vs Iters']):
+    traces, iters = Series_RangeExecute(ConvergeFunc, computeRange)
+    PAL.List_PlotVisualise(iters[::plotSkip], titles=titles)
+    
+    return traces, iters
+
+def Series_GroupSubPlotConvergeVis(ConvergeFunc, computeValues, plotSkip=1, titles=['values', 'iters', 'Values vs Iters']):
+    traces, iters = Series_GroupExecute(ConvergeFunc, computeValues)
+
+    plt.title(titles[2])
     
     nCols = 5
     nRows = len(computeValues)/nCols
@@ -60,15 +73,10 @@ def Series_GroupSubPlotConvergeVis(ConvergeFunc, computeValues, plotSkip=1, max_
 
     PAL.List_PlotVisualise(iters[::plotSkip])
 
-    return iters, traces
+    return traces, iters
 
-def Series_CombinedPlotConvergeVis(ConvergeFunc, computeValues, plotSkip=1, max_iters=-1, titles=['values', 'iters', 'Values vs Iters']):
-    traces = []
-    iters = []
-    for i in tqdm(computeValues):
-        trace = ConvergeFunc(i, max_iters=max_iters)
-        iters.append(len(trace)-1)
-        traces.append(trace)
+def Series_CombinedPlotConvergeVis(ConvergeFunc, computeValues, plotSkip=1, titles=['values', 'iters', 'Values vs Iters']):
+    traces, iters = Series_GroupExecute(ConvergeFunc, computeValues)
 
     ax = plt.subplot(1,1,1)
     colors = cm.rainbow(np.linspace(0, 1, len(traces)))
@@ -85,6 +93,6 @@ def Series_CombinedPlotConvergeVis(ConvergeFunc, computeValues, plotSkip=1, max_
 
     plt.show()
     
-    return iters, traces
+    return traces, iters
 
 # Driver Code

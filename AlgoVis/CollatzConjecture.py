@@ -5,9 +5,6 @@ Link: https://www.youtube.com/watch?v=5mFpVDpKX70
 
 # Imports
 import functools
-import matplotlib.pyplot as plt
-from tqdm import tqdm
-from Libraries import PlotAnimateLibrary as PAL
 from Libraries import SeriesVisualiseLibrary as SVL
 
 # Main Functions
@@ -42,13 +39,16 @@ max_iters = -1
 # Params
 
 # RunCode
-SVL.Series_ValueConvergeVis(ConvergeFunc, startVal, max_iters, titles=['Iteration', 'Value', " Collatz Convergence for " + str(startVal)])
+ConvergeFuncSingle = functools.partial(ConvergeFunc, max_iters=max_iters)
+SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', " Collatz Convergence for " + str(startVal)])
 
 # Converge Over Many Values
 # Params
 computeRange = [10, 100, 1]
+max_iters = -1
 plotSkip = 1
 # Params
 
 # RunCode
-iters = SVL.Series_RangeConvergeVis(ConvergeFunc, computeRange, plotSkip=plotSkip, titles=['Start Value', 'Convergence Iterations Count', 'Values vs Collatz Convergence Time'])
+ConvergeFuncManyValues = functools.partial(ConvergeFunc, max_iters=max_iters)
+traces, iters = SVL.Series_RangeConvergeVis(ConvergeFuncManyValues, computeRange, plotSkip=plotSkip, titles=['Start Value', 'Convergence Iterations Count', 'Values vs Collatz Convergence Time'])

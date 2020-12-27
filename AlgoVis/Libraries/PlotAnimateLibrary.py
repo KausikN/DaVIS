@@ -24,17 +24,21 @@ def SavePlotGIF(animation, savePath, fps=25):
     animation.save(savePath, writer=writer)
 
 # Sample Visualisations
-def List_PlotVisualise(values, titles=['', '']):
-    # print("No of iters:", len(values)-1)
-    values_str = []
-    for v in values:
-        values_str.append(str(v))
-    # print("Trace:", ' '.join(values_str))
-    plt.plot(list(range(1, len(values)+1)), values)
-    plt.scatter(list(range(1, len(values)+1)), values)
+def List_PlotVisualise(values, titles=['', ''], annotate=False):
+    fig, ax = plt.subplots()
+    ax.plot(list(range(1, len(values)+1)), values)
+    ax.scatter(list(range(1, len(values)+1)), values)
     plt.xlabel(titles[0])
     plt.ylabel(titles[1])
     plt.title(titles[2])
+    # print("No of iters:", len(values)-1)
+    values_str = []
+    for i in range(len(values)):
+        values_str.append(str(values[i]))
+        if annotate:
+            ax.annotate(str(values[i]), (i+1, values[i]))
+    # print("Trace:", ' '.join(values_str))
+    
     plt.show()
 
 def ListProgressionPlot_Vis(values):

@@ -17,7 +17,7 @@ def DepthImage_to_Terrain(depths, I, ImagePath, name='Test', exportPath=None):
     vertices = []
     for i in range(depths.shape[0]):
         for j in range(depths.shape[1]):
-            vertices.append([j+1, i+1, depths[i, j]])
+            vertices.append([j+1, i+1, depths[-i-1, -j-1]])
 
     faceMaps = []
     for i in range(depths.shape[0]-1):
@@ -40,7 +40,7 @@ def DepthImage_to_Terrain(depths, I, ImagePath, name='Test', exportPath=None):
         mesh.compute_vertex_normals()
     
         open3d.visualization.draw_geometries([mesh])
-        open3d.io.write_triangle_mesh(exportPath, mesh)
+        open3d.io.write_triangle_mesh(exportPath, mesh, compressed=True)
         
         # loader = Loader(ShowBase)
         # model = loader.loadModel(exportPath)

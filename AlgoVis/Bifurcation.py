@@ -4,15 +4,15 @@ Video: https://www.youtube.com/watch?v=ovJcsL7vyrk
 '''
 
 # Imports
+import functools
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from Libraries import PlotAnimateLibrary as PAL
 from Libraries import SeriesVisualiseLibrary as SVL
 
 # Main Functions
 # Algorithm Functions
-def Converge_Logistic(startVal, r, c=0, max_iters=-1, equilibriumRoundoff=4, valueLimits=[-10000000.0, 10000000.0]):
+def Converge_Logistic(r, startVal=0.5, c=0, max_iters=-1, equilibriumRoundoff=4, valueLimits=[-10000000.0, 10000000.0]):
     values = [startVal]
     curVal = startVal
     n_iters = 0
@@ -40,6 +40,7 @@ def Converge_Logistic(startVal, r, c=0, max_iters=-1, equilibriumRoundoff=4, val
 
     return values
 
+# Visualisation Functions
 def FindEquilibriumPopulations(trace, equilibriumRoundoff):
     eqPops = [trace[-1]]
     finalPopRoundedOff = round(trace[-1], equilibriumRoundoff)
@@ -50,7 +51,6 @@ def FindEquilibriumPopulations(trace, equilibriumRoundoff):
 
     return eqPops
 
-# Visualisation Functions
 def BifurcatePlot(rValues, eqPops, titles=['', '', '']):
     # plt.plot(rValues, eqPops)
     colors = cm.rainbow(np.linspace(0, 1, len(rValues)))
@@ -63,6 +63,8 @@ def BifurcatePlot(rValues, eqPops, titles=['', '', '']):
 
 # Driver Code
 # Params
+ConvergeFunc = Converge_Logistic
+
 startVal = 0.5
 r = 2.6
 c = 0.5
@@ -70,23 +72,21 @@ c = 0.5
 max_iters = 500
 equilibriumRoundoff = 4
 valueLimits = [-float(pow(10, 100)), float(pow(10, 100))]
-
-def ConvergeFunc(r, startVal=startVal, c=c, max_iters=max_iters, equilibriumRoundoff=equilibriumRoundoff, valueLimits=valueLimits):
-    return Converge_Logistic(startVal, r, c, max_iters=max_iters, equilibriumRoundoff=equilibriumRoundoff, valueLimits=valueLimits)
 # Params
 
 # Converge Over Many Values
 # Params
-computeRange = (np.array(range(0, 50 + 1))/10)
+r_computeRange = (np.array(range(0, 50 + 1))/10)
 # computeRange = np.array([3.0])
 plotSkip = 1
 # Params
 
 # RunCode
-iters, traces = SVL.Series_CombinedPlotConvergeVis(ConvergeFunc, computeRange, max_iters=max_iters, plotSkip=plotSkip, titles=['Iteration', 'Value', 'Population Convergence'])
+ConvergeFuncManyValues = functools.partial(ConvergeFunc, startVal=startVal, c=c, max_iters=max_iters, equilibriumRoundoff=equilibriumRoundoff, valueLimits=valueLimits)
+traces, iters = SVL.Series_CombinedPlotConvergeVis(ConvergeFuncManyValues, r_computeRange, plotSkip=plotSkip, titles=['Iteration', 'Value', 'Population Convergence'])
 
 # Bifurcate Plot
 eqPopulations = []
 for trace in traces:
     eqPopulations.append(FindEquilibriumPopulations(trace, equilibriumRoundoff=equilibriumRoundoff))
-BifurcatePlot(computeRange, np.array(eqPopulations), titles=['r', 'Equilibrium Population', 'Bifurcation Plot'])
+BifurcatePlot(r_computeRange, np.array(eqPopulations), titles=['r', 'Equilibrium Population', 'Bifurcation Plot'])
