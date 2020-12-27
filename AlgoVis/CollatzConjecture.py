@@ -36,11 +36,13 @@ ConvergeFunc = CollatzConjecture_Converge
 # Params
 startVal = 5798
 max_iters = -1
+
+annotate = False
 # Params
 
 # RunCode
 ConvergeFuncSingle = functools.partial(ConvergeFunc, max_iters=max_iters)
-SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', " Collatz Convergence for " + str(startVal)])
+SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', " Collatz Convergence for " + str(startVal)], annotate=annotate)
 
 # Converge Over Many Values
 # Params

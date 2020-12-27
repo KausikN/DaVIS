@@ -57,11 +57,13 @@ ConvergeFunc = DigitMultiplySeries_Converge
 # Params
 startVal = 1123314
 max_iters = -1
+
+annotate = False
 # Params
 
 # RunCode
 ConvergeFuncSingle = functools.partial(ConvergeFunc, max_iters=max_iters)
-SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', " Digit Multiply Convergence for " + str(startVal)])
+SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', " Digit Multiply Convergence for " + str(startVal)], annotate=annotate)
 
 # Converge Over Many Values
 # Params
