@@ -300,7 +300,7 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'DepthImage.png'
+imgName = 'Tes.jpeg'
 imgSize = (100, 100)
 keepAspectRatio = True
 simplify = False
@@ -313,7 +313,7 @@ options['DepthRange'] = [0, 255]
 
 DepthScale = 1
 DepthLimits = None
-ExportDepthMultiplier = 25
+ExportDepthMultiplier = np.max(np.array(imgSize))/5
 
 display = False
 subPlots = False
@@ -354,4 +354,4 @@ if method == 1:
 
 # Create Terrain
 if method == 2:
-    mesh = MeshLibrary.DepthImage_to_Terrain(Depths*ExportDepthMultiplier, I, mainPath + imgName, exportPath=mainPath + os.path.splitext(imgName)[0] + '.obj')
+    mesh = MeshLibrary.DepthImage_to_Terrain(Depths*ExportDepthMultiplier, I, mainPath + imgName, name=os.path.splitext(imgName)[0], exportPath=mainPath + os.path.splitext(imgName)[0] + '.obj')
