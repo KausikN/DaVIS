@@ -9,8 +9,8 @@
    ![Audio Spectrogram](https://github.com/KausikN/DaVIS/blob/master/AudioVis/GeneratedVisualisations/AudioSpectrogram_Spectrogram.png)
    
 ## ImageVis
-### Image 3D Plotting
-   - Plotting images in 3D using depth based on various factors
+### Image 3D Model Generator
+   - Generating 3D models from images using depth based on various factors
    
    ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_DepthImage.png)
    ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_DepthImageModel.PNG)
