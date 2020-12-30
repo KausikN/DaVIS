@@ -3,11 +3,13 @@ Digit based Series generation and visualisation
 '''
 
 # Imports
+import turtle
 import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from Libraries import PlotAnimateLibrary as PAL
+from Libraries import TurtleAnimateLibrary as TAL
 
 # Main Functions
 # Execution Functions
@@ -33,7 +35,7 @@ def Series_ValueExecute(ConvergeFunc, startVal):
     trace = ConvergeFunc(startVal)
     return trace, len(trace)
 
-# Visualisation Functions
+# Matplotlib Visualisation Functions
 def Series_ValueConvergeVis(ConvergeFunc, startVal, titles=['values', 'iters', 'Values vs Iters'], plotLines=True, plotPoints=True, annotate=False):
     trace, iterCount = Series_ValueExecute(ConvergeFunc, startVal)
     PAL.List_PlotVisualise(trace, titles=titles, plotLines=plotLines, plotPoints=plotPoints, annotate=annotate)
@@ -94,5 +96,14 @@ def Series_CombinedPlotConvergeVis(ConvergeFunc, computeValues, plotSkip=1, titl
     plt.show()
     
     return traces, iters
+
+# Turtle Visualisation Functions
+def Series_ValueRun_TurtleCurves(trace, titles=['values', 'iters', 'Values vs Iters']):
+    # trace, iterCount = Series_ValueExecute(ConvergeFunc, startVal)
+    trace = np.array(trace)
+    dataRange = np.array([np.min(trace), np.max(trace)])
+    trace = ((trace - dataRange[0] - ((dataRange[0] + dataRange[1])/2)) / (dataRange[1] - dataRange[0])) * 700
+    
+    TAL.List_TurtleValueAlternatingCurves(trace, titles=titles, scale=1)
 
 # Driver Code

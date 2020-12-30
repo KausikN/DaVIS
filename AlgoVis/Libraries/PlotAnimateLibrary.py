@@ -24,7 +24,7 @@ def SavePlotGIF(animation, savePath, fps=25):
     animation.save(savePath, writer=writer)
 
 # Sample Visualisations
-def List_PlotVisualise(values, titles=['', ''], plotLines=True, plotPoints=True, annotate=False):
+def List_PlotVisualise(values, titles=['', '', ''], plotLines=True, plotPoints=True, annotate=False):
     fig, ax = plt.subplots()
     if plotLines:
         ax.plot(list(range(1, len(values)+1)), values)

@@ -42,7 +42,8 @@ annotate = False
 
 # RunCode
 ConvergeFuncSingle = functools.partial(ConvergeFunc, max_iters=max_iters)
-SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', " Collatz Convergence for " + str(startVal)], annotate=annotate)
+trace, iterCount = SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', "Collatz Convergence for " + str(startVal)], annotate=annotate)
+SVL.Series_ValueRun_TurtleCurves(trace, titles=["Collatz Convergence for " + str(startVal)])
 
 # Converge Over Many Values
 # Params

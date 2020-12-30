@@ -55,7 +55,7 @@ ConvergeFunc = DigitMultiplySeries_Converge
 
 # Converge for a value
 # Params
-startVal = 1123314
+startVal = 95
 max_iters = -1
 
 annotate = False
@@ -63,7 +63,8 @@ annotate = False
 
 # RunCode
 ConvergeFuncSingle = functools.partial(ConvergeFunc, max_iters=max_iters)
-SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', " Digit Multiply Convergence for " + str(startVal)], annotate=annotate)
+trace, iterCount = SVL.Series_ValueConvergeVis(ConvergeFuncSingle, startVal, titles=['Iteration', 'Value', "Digit Multiply Convergence for " + str(startVal)], annotate=annotate)
+SVL.Series_ValueRun_TurtleCurves(trace, titles=["Digit Multiply Convergence for " + str(startVal)])
 
 # Converge Over Many Values
 # Params
