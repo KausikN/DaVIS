@@ -25,7 +25,7 @@
    - Visualise Collatz Conjecture Convergence
    
    ![Collatz Conjecture 1](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceSingleValue.png)
-   ![Collatz Conjecture Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceTurtle.png)
+   ![Collatz Conjecture Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceTurtle.PNG)
    ![Collatz Conjecture 2](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceItersCount.png)
    
    - Video on Collatz Conjecture
@@ -46,7 +46,7 @@
    - Visualise Recaman Sequence
    
    ![Recaman Sequence](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Recaman_Sequence.png)
-   ![Recaman Sequence Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Recaman_SequenceTurtle.png)
+   ![Recaman Sequence Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Recaman_SequenceTurtle.PNG)
       
    - Video on Recaman Sequence
    
@@ -58,17 +58,17 @@
    - Standard Fibonacci Sequence
 
    ![Standard Fibonacci](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_Standard.png)
-   ![Standard Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_StandardTurtle.png)
+   ![Standard Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_StandardTurtle.PNG)
 
    - General Length Fibonacci Sequence
 
    ![General Length Fibonacci](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericLength.png)
-   ![General Length Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericLengthTurtle.png)
+   ![General Length Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericLengthTurtle.PNG)
 
    - Custom Function Fibonacci Sequence - Here used Reverse Fibonacci Function
 
    ![General Func Fibonacci](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericFunc.png)
-   ![General Func Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericFuncTurtle.png)
+   ![General Func Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericFuncTurtle.PNG)
 
    - Video on Fibonacci Sequence
    
@@ -78,5 +78,5 @@
    - Visualise Digit Sum and Multiply Convergence
    
    ![Digit Multiply 1](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceSingleValue.png)
-   ![Digit Multiply Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceTurtle.png)
+   ![Digit Multiply Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceTurtle.PNG)
    ![Digit Multiply 2](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceItersCount.png)
