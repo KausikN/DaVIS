@@ -41,6 +41,15 @@
    
    [![Bifurcate Population Video](https://img.youtube.com/vi/ovJcsL7vyrk/0.jpg)](https://www.youtube.com/watch?v=ovJcsL7vyrk)
 
+### Recaman Sequence
+   - Visualise Recaman Sequence
+   
+   ![Recaman Sequence](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Recaman_Sequence.png)
+      
+   - Video on Recaman Sequence
+   
+   [![Recaman Sequence Video](https://img.youtube.com/vi/FGC5TdIiT9U/0.jpg)](https://www.youtube.com/watch?v=FGC5TdIiT9U)
+
 ### Fibonacci Sequence
    - Visualise Fibonacci Sequence and its variants
    

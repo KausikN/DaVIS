@@ -34,9 +34,9 @@ def Series_ValueExecute(ConvergeFunc, startVal):
     return trace, len(trace)
 
 # Visualisation Functions
-def Series_ValueConvergeVis(ConvergeFunc, startVal, titles=['values', 'iters', 'Values vs Iters'], annotate=False):
+def Series_ValueConvergeVis(ConvergeFunc, startVal, titles=['values', 'iters', 'Values vs Iters'], plotLines=True, plotPoints=True, annotate=False):
     trace, iterCount = Series_ValueExecute(ConvergeFunc, startVal)
-    PAL.List_PlotVisualise(trace, titles=titles, annotate=annotate)
+    PAL.List_PlotVisualise(trace, titles=titles, plotLines=plotLines, plotPoints=plotPoints, annotate=annotate)
 
     return trace, iterCount
 

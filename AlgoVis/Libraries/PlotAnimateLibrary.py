@@ -24,10 +24,12 @@ def SavePlotGIF(animation, savePath, fps=25):
     animation.save(savePath, writer=writer)
 
 # Sample Visualisations
-def List_PlotVisualise(values, titles=['', ''], annotate=False):
+def List_PlotVisualise(values, titles=['', ''], plotLines=True, plotPoints=True, annotate=False):
     fig, ax = plt.subplots()
-    ax.plot(list(range(1, len(values)+1)), values)
-    ax.scatter(list(range(1, len(values)+1)), values)
+    if plotLines:
+        ax.plot(list(range(1, len(values)+1)), values)
+    if plotPoints:
+        ax.scatter(list(range(1, len(values)+1)), values)
     plt.xlabel(titles[0])
     plt.ylabel(titles[1])
     plt.title(titles[2])
