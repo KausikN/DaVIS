@@ -15,6 +15,11 @@
    ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_DepthImage.png)
    ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_DepthImageModel.PNG)
 
+### Image 2D Visualiser
+   - Generating Fun Visualisations of Images
+   
+   ![RGB Split](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_RGBChannelSplit.png)
+
 ## AlgoVis
 ### Random Number Generation
    - Visualise Output Distribution on python's inbuilt Random Function
