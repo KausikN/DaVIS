@@ -21,11 +21,16 @@
    ![RGB Split](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_RGBChannelSplit.png)
 
 ## AlgoVis
-### Chaos Theory (Lorentz Attractor System)
-   - Visualise Chaos Theory using the Lorenz Attractor System
+### Chaos Theory
+   - Visualise Chaos Theory using various systems
    - Chaos theory led to popular theories like The Butterfly Effect
-   
-   ![Lorenz Attractor](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/LorenzAttractor.gif)
+      - Lorenz Attractor System
+
+      ![Lorenz Attractor](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/LorenzAttractor.gif)
+
+      - Aizawa Attractor System
+
+      ![Aizawa Attractor](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/AizawaAttractor.gif)
    
    - Video on Chaos Theory
    
@@ -34,6 +39,10 @@
    - Video on Lorenz Attractor
    
    [![Lorenz Attractor Video](https://img.youtube.com/vi/VjP90rwpBwU/0.jpg)](https://www.youtube.com/watch?v=VjP90rwpBwU)
+
+   - Video on Aizawa Attractor
+   
+   [![Aizawa Attractor Video](https://img.youtube.com/vi/RBqbQUu-p00/0.jpg)](https://www.youtube.com/watch?v=RBqbQUu-p00)
 
 ### Random Number Generation
    - Visualise Output Distribution on python's inbuilt Random Function
