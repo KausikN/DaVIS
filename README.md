@@ -25,7 +25,7 @@
    - Visualise Chaos Theory using the Lorenz Attractor System
    - Chaos theory led to popular theories like The Butterfly Effect
    
-   ![Lorenz Attractor](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/ChaosTheory.mp4)
+   ![Lorenz Attractor](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/LorenzAttractor.gif)
    
    - Video on Chaos Theory
    
