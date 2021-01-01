@@ -63,7 +63,12 @@ def Deriv_Aizawa(pt, t0, a=0.95, b=0.7, c=0.6, d=3.5, e=0.25, f=0.1):
     return [dx, dy, dz]
 
 # Generation Functions
-def GenerateRandomPoints_Uniform(N_trajectories, Limits=[-15, 15], seed=1):
+def GeneratePoints_UniformRandom(N_trajectories, Limits=[-15, 15], seed=5):
+    np.random.seed(seed)
+    x0 = Limits[0] + (Limits[1] - Limits[0]) * np.random.random((N_trajectories, 3))
+    return x0
+
+def GeneratePoints_Uniform(N_trajectories, Limits=[(-15, 15), (-15, 15), (-15, 15)]):
     np.random.seed(seed)
     x0 = Limits[0] + (Limits[1] - Limits[0]) * np.random.random((N_trajectories, 3))
     return x0
@@ -82,9 +87,10 @@ def InitChaosAnimation():
 
 # animation function.  This will be called sequentially with the frame number
 def UpdateChaosAnimation(i):
-    global Lines, Pts, x_t, fig, ax
+    global Lines, Pts, x_t, fig, ax, speedUpFactor
+    print(i, "done")
     # we'll step two time-steps per frame.  This leads to nice results.
-    i = (2 * i) % x_t.shape[1]
+    i = (speedUpFactor * i) % x_t.shape[1]
 
     for line, pt, xi in zip(Lines, Pts, x_t):
         x, y, z = xi[:i].T
@@ -95,19 +101,17 @@ def UpdateChaosAnimation(i):
         pt.set_3d_properties(z[-1:])
 
     ax.view_init(30, 0.3 * i)
-    fig.canvas.draw()
-
-    print(i, "done")
+    fig.canvas.draw() 
 
     return Lines + Pts
 
-def AnimateChaos(AttractorFunc, N_trajectories, GeneratorFunc, plotLims=[(-25, 25), (-35, 35), (5, 55)], frames=500, frame_interval=30, plotData=True, saveData={"save": False}):
-    global Lines, Pts, x_t, fig, ax
+def AnimateChaos(AttractorFunc, N_trajectories, GeneratorFunc, timeInterval=[0, 4], plotLims=[(-25, 25), (-35, 35), (5, 55)], frames=500, frame_interval=30, plotData=True, saveData={"save": False}):
+    global Lines, Pts, x_t, fig, ax, speedUpFactor
     # Choose random starting points, uniformly distributed from -15 to 15
     startPoints = GeneratorFunc(N_trajectories)
 
     # Solve for the trajectories
-    time = np.linspace(0, 4, frames)
+    time = np.linspace(timeInterval[0], timeInterval[1], frames*speedUpFactor)
     x_t = np.asarray([integrate.odeint(AttractorFunc, sP, time) for sP in tqdm(startPoints)])
 
     # Set up figure & 3D axis for animation
@@ -150,19 +154,21 @@ def AnimateChaos(AttractorFunc, N_trajectories, GeneratorFunc, plotLims=[(-25, 2
 
 # Driver Code
 # Params
-N_trajectories = 5
-AttractorFunc = Deriv_Aizawa
-GeneratorFunc = GenerateRandomPoints_Uniform
+N_trajectories = 10
+AttractorFunc = Deriv_Lorenz
+GeneratorFunc = GeneratePoints_UniformRandom
+timeInterval = [0, 4]
 
-RandomLimits = [-0.1, 0.1]
-frames = 2000
-frame_interval = 5
+RandomLimits = [-15, 15]
+frames = 250
+frame_interval = 30
+speedUpFactor = 2
 
-plotData = True
-saveData = {"save": True, "path":"AlgoVis/GeneratedVisualisations/AizawaAttractor.mp4", "fps": 60}
+plotData = False
+saveData = {"save": True, "path":"AlgoVis/GeneratedVisualisations/LorenzAttractor.gif", "fps": 30}
 
-plotLims = [(-1.5, 1.5), (-1.5, 1.5), (0, 2)]
+plotLims = [(-30, 30), (-30, 30), (0, 50)]
 # Params
 
 # RunCode
-AnimateChaos(AttractorFunc, N_trajectories, functools.partial(GeneratorFunc, Limits=RandomLimits), plotLims=plotLims, frames=frames, frame_interval=frame_interval, plotData=plotData, saveData=saveData)
+AnimateChaos(AttractorFunc, N_trajectories, functools.partial(GeneratorFunc, Limits=RandomLimits), timeInterval=timeInterval, plotLims=plotLims, frames=frames, frame_interval=frame_interval, plotData=plotData, saveData=saveData)
