@@ -26,11 +26,15 @@
    - Chaos theory led to popular theories like The Butterfly Effect
       - Lorenz Attractor System
 
-      ![Lorenz Attractor](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/LorenzAttractor.gif)
+      ![Lorenz Attractor Random](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/LorenzAttractor_Random.gif)
+
+      ![Lorenz Attractor Uniform](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/LorenzAttractor_Uniform.gif)
 
       - Aizawa Attractor System
 
-      ![Aizawa Attractor](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/AizawaAttractor.gif)
+      ![Aizawa Attractor Random](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/AizawaAttractor_Random.gif)
+
+      ![Aizawa Attractor Uniform](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/AizawaAttractor_Uniform.gif)
    
    - Video on Chaos Theory
    
