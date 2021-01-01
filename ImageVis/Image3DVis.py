@@ -300,7 +300,7 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'URLDownload.jpg'
+imgName = 'Pr.png'
 imgSize = (100, 100)
 keepAspectRatio = True
 simplify = False
@@ -315,7 +315,7 @@ DepthScale = 1
 DepthLimits = None
 ExportDepthMultiplier = np.max(np.array(imgSize))/5
 
-display = True
+display = False
 subPlots = False
 
 method = 2
