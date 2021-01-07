@@ -11,7 +11,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits import mplot3d
 from tqdm import tqdm
 
-import MeshLibrary
+from Libraries import MeshLibrary
 
 
 # Depth Functions
@@ -300,7 +300,7 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'Pr.png'
+imgName = 'Arch.jpeg'
 imgSize = (100, 100)
 keepAspectRatio = True
 simplify = False
