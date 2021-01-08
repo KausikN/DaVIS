@@ -9,6 +9,12 @@
    ![Audio Spectrogram](https://github.com/KausikN/DaVIS/blob/master/AudioVis/GeneratedVisualisations/AudioSpectrogram_Spectrogram.png)
    
 ## ImageVis
+### Image Point Effects
+   - Generating Fun 3D Effects from Images
+   
+   ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Pika.jpg)
+   ![Effect GIF](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Pika_IPEffect.gif)
+
 ### Image 3D Model Generator
    - Generating 3D models from images using depth based on various factors
    
