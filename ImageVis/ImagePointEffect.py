@@ -107,7 +107,7 @@ def Image2PointsColors(I, DepthFunc, ImagePointLimits):
 # Driver Code
 # Params
 imgPath = 'TestImgs/Pika.jpg'
-imgSize = (10, 10)
+imgSize = (30, 30)
 keepAspectRatio = False
 DepthFunc = DepthFunc_GrayScaleDepth
 DepthOptions = {
@@ -116,14 +116,14 @@ DepthOptions = {
     'DepthRange': [0, 255]
     }
 
-timeInterval = [0, 10]
+timeInterval = [0, 100]
 EffectFunc = Effect_Translate
 saveName = "IPEffect"
-ImagePointLimits = [(-15, 15), (-15, 15), (-15, 15)]
+ImagePointLimits = [(-15, 15), (-27.5, 27.5), (-27.5, 27.5)]
 plotLims = [(-15, 15), (-15, 15), (-15, 15)]
 speedUpFactor = 2
 
-frames = 250
+frames = 125
 frame_interval = 30
 rotationSpeed = 0
 altDegrees = 0
