@@ -133,7 +133,7 @@ saveData = {
     "save": True,
     "path":"ImageVis/GeneratedVisualisations/" + os.path.splitext(os.path.basename(imgPath))[0] + "_" + saveName + ".gif",
     "fps": 30,
-    "figSize": [640, 480]
+    "figSize": [320, 240]
     }
 # Params
 
