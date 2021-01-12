@@ -6,38 +6,14 @@ Dzhanibekov effect Link: https://www.youtube.com/watch?v=1VPfZ_XzisU
 # Imports
 import os
 import cv2
-import math
 import functools
 import numpy as np
 import matplotlib.pyplot as plt
+
 from Libraries import Plot3DVisualiseLibrary as P3L
+from Libraries import EffectFunctions
 
 # Main Functions
-# Effect Functions
-def Effect_UpwardSpiral(sP, time, ls=50, r=15, rs=1):
-    x_t = []
-    for t in time:
-        z = ls * t
-        angle = ((rs * t * 360) % 360)
-        rad = (angle / 180) * math.pi
-        x = r * math.cos(rad)
-        y = r * math.sin(rad)
-
-        x_t.append([sP[0] + x, sP[1] + y, sP[2] + z])
-    x_t = np.array(x_t)
-    return x_t
-
-def Effect_Translate(sP, time, speed=[-100, 0, 0]):
-    x_t = []
-    for t in time:
-        x = speed[0] * t
-        y = speed[1] * t
-        z = speed[2] * t
-
-        x_t.append([sP[0] + x, sP[1] + y, sP[2] + z])
-    x_t = np.array(x_t)
-    return x_t
-
 # Depth Functions
 def DepthFunc_GrayScaleDepth(I, options=None):
     Depths = np.zeros((I.shape[0], I.shape[1]))
@@ -106,7 +82,7 @@ def Image2PointsColors(I, DepthFunc, ImagePointLimits):
 
 # Driver Code
 # Params
-imgPath = 'TestImgs/Pika.jpg'
+imgPath = 'TestImgs/Arch.jpeg'
 imgSize = (30, 30)
 keepAspectRatio = False
 DepthFunc = DepthFunc_GrayScaleDepth
@@ -116,17 +92,17 @@ DepthOptions = {
     'DepthRange': [0, 255]
     }
 
-timeInterval = [0, 100]
-EffectFunc = Effect_Translate
-saveName = "IPEffect"
-ImagePointLimits = [(-15, 15), (-27.5, 27.5), (-27.5, 27.5)]
-plotLims = [(-15, 15), (-15, 15), (-15, 15)]
+EffectFunc = functools.partial(EffectFunctions.Effect_ChaosAttractor, Func=EffectFunctions.Deriv_Lorenz)
+saveName = "IPEffect_Test"
+timeInterval = [0, 4]
+ImagePointLimits = [(-15, 15), (-15, 15), (-15, 15)]
+plotLims = [(-30, 30), (-30, 30), (0, 55)]
 speedUpFactor = 2
 
-frames = 125
+frames = 250
 frame_interval = 30
-rotationSpeed = 0
-altDegrees = 0
+rotationSpeed = 3
+altDegrees = 30
 
 plotData = False
 saveData = {
