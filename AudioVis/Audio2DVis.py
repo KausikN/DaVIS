@@ -12,6 +12,7 @@ import wave
 import pyaudio
 import numpy as np
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 # PyAudio Instance
 p = pyaudio.PyAudio()  # Create an interface to PortAudio
@@ -71,21 +72,32 @@ def GetFrequencyData(audio, sample_rate):
     frequencies, times, spectrogram = signal.spectrogram(audio, sample_rate)
     return frequencies, times, spectrogram
 
-def DisplayFrequencyData(frequencies, times, spectrogram):
-    plt.imshow(spectrogram)
-    # plt.pcolormesh(times, frequencies, spectrogram)
+def DisplaySpectrogram(frequencies, times, spectrogram):
+    # plt.imshow(spectrogram)
+    plt.pcolormesh(times, frequencies, spectrogram)
 
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
     plt.title('Audio Spectrogram')
     plt.show()
 
+def DisplayMaxFrequencyGraph(frequencies, times, spectrogram, plotSkip=1):
+    maxFreqs = []
+    for ti in tqdm(range(len(times))):
+        maxFreqs.append(frequencies[np.argmax(spectrogram[:, ti])])
+    maxFreqs = np.array(maxFreqs)
+
+    plt.plot(list(range(len(times)))[::plotSkip], maxFreqs)
+    plt.scatter(list(range(len(times)))[::plotSkip], maxFreqs)
+
+    plt.show()
+
 # Driver Code
 # Params
 mainPath = 'TestAudio/'
-fileName = 'Iruvar.mp3'
-offset = 0.0#np.random.randint(1, 300) / 10
-duration = 5.0
+fileName = 'DN.mp3'
+offset = 4.0#np.random.randint(1, 300) / 10
+duration = 1.0
 
 # Load Audio
 print("Loading", fileName, "from", str(offset), "-", str(offset + duration))
@@ -94,8 +106,14 @@ print("Audio Data Shape:", audio.shape)
 
 # Visualise
 # Amplitudes
-DisplayAudio_WavePlot(audio, sample_rate)
+# DisplayAudio_WavePlot(audio, sample_rate)
 
 # Frequencies
 frequencies, times, spectrogram = GetFrequencyData(audio, sample_rate)
-DisplayFrequencyData(frequencies, times, spectrogram)
+print("Freq Shape:", frequencies.shape)
+print("Time Shape:", times.shape)
+print("Spectrogram Shape:", spectrogram.shape)
+
+# print(spectrogram)
+# DisplaySpectrogram(frequencies, times, spectrogram)
+DisplayMaxFrequencyGraph(frequencies, times, spectrogram, plotSkip=1)
