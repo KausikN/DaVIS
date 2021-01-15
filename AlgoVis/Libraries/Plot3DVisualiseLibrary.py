@@ -64,7 +64,7 @@ def InitAnimation():
 # animation function.  This will be called sequentially with the frame number
 def UpdateAnimation(i):
     global Lines, Pts, x_t, fig, ax, speedUpFactor, rotationSpeed
-    print(i, "done")
+    print(i, "done", end='\r')
     # we'll step two time-steps per frame.  This leads to nice results.
     i = (speedUpFactor * i) % x_t.shape[1]
 
