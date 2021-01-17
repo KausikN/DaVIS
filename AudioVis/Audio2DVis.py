@@ -9,52 +9,52 @@ from scipy.io import wavfile
 import librosa
 import librosa.display
 import wave
-import pyaudio
+# import pyaudio
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-# PyAudio Instance
-p = pyaudio.PyAudio()  # Create an interface to PortAudio
+# # PyAudio Instance
+# p = pyaudio.PyAudio()  # Create an interface to PortAudio
 
-# Main Functions
-# Basic Audio Functions
-def RecordAudio(time, chunkSize=1024, sample_format=pyaudio.paInt16, channels=2, frame_rate=44100, savePath=None):
-    print('Recording')
-    stream = p.open(format=sample_format,
-                    channels=channels,
-                    rate=frame_rate,
-                    frames_per_buffer=chunkSize,
-                    input=True)
+# # Main Functions
+# # Basic Audio Functions
+# def RecordAudio(time, chunkSize=1024, sample_format=pyaudio.paInt16, channels=2, frame_rate=44100, savePath=None):
+#     print('Recording')
+#     stream = p.open(format=sample_format,
+#                     channels=channels,
+#                     rate=frame_rate,
+#                     frames_per_buffer=chunkSize,
+#                     input=True)
 
-    frames = []  # Initialize array to store frames
+#     frames = []  # Initialize array to store frames
 
-    # Store data in chunks for time seconds
-    for i in range(0, int(frame_rate / chunkSize * time)):
-        data = stream.read(chunkSize)
-        frames.append(data)
+#     # Store data in chunks for time seconds
+#     for i in range(0, int(frame_rate / chunkSize * time)):
+#         data = stream.read(chunkSize)
+#         frames.append(data)
 
-    # Stop and close the stream 
-    stream.stop_stream()
-    stream.close()
-    # Terminate the PortAudio interface
-    p.terminate()
+#     # Stop and close the stream 
+#     stream.stop_stream()
+#     stream.close()
+#     # Terminate the PortAudio interface
+#     p.terminate()
 
-    print('Finished recording')
+#     print('Finished recording')
 
-    if savePath is not None:
-        SaveAudio(savePath, frames, channels, sample_format, frame_rate)
+#     if savePath is not None:
+#         SaveAudio(savePath, frames, channels, sample_format, frame_rate)
 
-    return frames
+#     return frames
 
-def SaveAudio(filePath, frames, channels, sample_format, frame_rate):
-    # Save the recorded data as a WAV file
-    wf = wave.open(filePath, 'wb')
-    wf.setnchannels(channels)
-    wf.setsampwidth(p.get_sample_size(sample_format))
-    wf.setframerate(frame_rate)
-    wf.writeframes(b''.join(frames))
-    wf.close()
+# def SaveAudio(filePath, frames, channels, sample_format, frame_rate):
+#     # Save the recorded data as a WAV file
+#     wf = wave.open(filePath, 'wb')
+#     wf.setnchannels(channels)
+#     wf.setsampwidth(p.get_sample_size(sample_format))
+#     wf.setframerate(frame_rate)
+#     wf.writeframes(b''.join(frames))
+#     wf.close()
 
 # Librosa Visualisation
 def LoadAudio(filePath, sample_rate=None, mono=True, offset=0.0, duration=None, res_type='kaiser_best', dtype=np.float32):
@@ -87,16 +87,16 @@ def DisplayMaxFrequencyGraph(frequencies, times, spectrogram, plotSkip=1):
         maxFreqs.append(frequencies[np.argmax(spectrogram[:, ti])])
     maxFreqs = np.array(maxFreqs)
 
-    plt.plot(list(range(len(times)))[::plotSkip], maxFreqs)
-    plt.scatter(list(range(len(times)))[::plotSkip], maxFreqs)
+    plt.plot(list(range(len(times)))[::plotSkip], maxFreqs[::plotSkip])
+    plt.scatter(list(range(len(times)))[::plotSkip], maxFreqs[::plotSkip])
 
     plt.show()
 
 # Driver Code
 # Params
 mainPath = 'TestAudio/'
-fileName = 'DN.mp3'
-offset = 4.0#np.random.randint(1, 300) / 10
+fileName = 'Iruvar.mp3'
+offset = 0.0#np.random.randint(1, 300) / 10
 duration = 1.0
 
 # Load Audio
@@ -106,7 +106,7 @@ print("Audio Data Shape:", audio.shape)
 
 # Visualise
 # Amplitudes
-# DisplayAudio_WavePlot(audio, sample_rate)
+DisplayAudio_WavePlot(audio, sample_rate)
 
 # Frequencies
 frequencies, times, spectrogram = GetFrequencyData(audio, sample_rate)
