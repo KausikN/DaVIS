@@ -22,6 +22,7 @@ ax = None
 x_t = []
 speedUpFactor = 2
 rotationSpeed = 3
+initRot = 30
 
 # Main Functions
 # Generation Functions
@@ -76,7 +77,7 @@ def UpdateAnimation(i):
         pt.set_data(x[-1:], y[-1:])
         pt.set_3d_properties(z[-1:])
 
-    ax.view_init(30, 0.3 * i*rotationSpeed)
+    ax.view_init(initRot, i*rotationSpeed)
     fig.canvas.draw()
 
     return Lines + Pts
@@ -109,7 +110,7 @@ def AnimateEffect(EffectFunc, N_trajectories, GeneratorFunc, timeInterval=[0, 4]
     ax.set_zlim(plotLims[2])
 
     # Set point-of-view: specified by (altitude degrees, azimuth degrees)
-    ax.view_init(30, 0)
+    ax.view_init(initRot, 0)
 
     # Animate
     InitAnim = InitAnimation
@@ -156,7 +157,7 @@ def AnimateEffect_Generic(EffectFunc, Points, Colors, timeInterval=[0, 4], plotL
     ax.set_zlim(plotLims[2])
 
     # Set point-of-view: specified by (altitude degrees, azimuth degrees)
-    ax.view_init(30, 0)
+    ax.view_init(initRot, 0)
 
     # Animate
     InitAnim = InitAnimation

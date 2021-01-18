@@ -26,8 +26,8 @@ def Equation_GenericFunc(sP, time, s=[0, 1, 0], TransformFuncs=None):
 def TransformFunc_None(x):
     return 0
 
-def TransformFunc_SinCos(x, coeff=[1, 1]):
-    return (math.sin(x)*coeff[0] + math.cos(x)*coeff[1])
+def TransformFunc_SinCos(x, coeff=[1, 1], freq=[1, 1]):
+    return (math.sin(x*freq[0])*coeff[0] + math.cos(x*freq[1])*coeff[1])
 
 def TransformFunc_Linear(x, coeff=1):
     return coeff*x
@@ -39,9 +39,9 @@ GeneratorFunc = P3L.GeneratePoints_Uniform
 
 timeInterval = [0, 50]
 Transforms = [
-    TransformFunc_None,
-    functools.partial(TransformFunc_Linear, coeff=0.5),
-    functools.partial(TransformFunc_SinCos, coeff=[10, 0])
+    lambda x: TransformFunc_None(x),
+    lambda y: TransformFunc_Linear(y, coeff=0.5) + TransformFunc_SinCos(y, coeff=[2, 0], freq=[10, 1]),
+    lambda z: TransformFunc_SinCos(z, coeff=[20, 0], freq=[0.1, 1])
     ]
 EffectFunc = functools.partial(Equation_GenericFunc, s=[0, 1, 1], TransformFuncs=Transforms)
 saveName = "EquationVis"
@@ -52,6 +52,7 @@ speedUpFactor = 2
 frames = 250
 frame_interval = 30
 rotationSpeed = 0
+initRot = 0
 
 plotData = False
 saveData = {
@@ -67,4 +68,5 @@ saveData = {
 saveData["figSize"] = (saveData["figSize"][0]/100, saveData["figSize"][1]/100) # Change FigSize to inches (dpi = 100)
 P3L.speedUpFactor = speedUpFactor
 P3L.rotationSpeed = rotationSpeed
+P3L.initRot = initRot
 P3L.AnimateEffect(EffectFunc, N_trajectories, functools.partial(GeneratorFunc, Limits=GenerationLimits), timeInterval=timeInterval, plotLims=plotLims, frames=frames, frame_interval=frame_interval, plotData=plotData, saveData=saveData)
