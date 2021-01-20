@@ -11,14 +11,14 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits import mplot3d
 from tqdm import tqdm
 
+from Libraries import DepthLibrary
 from Libraries import MeshLibrary
 
-
-# Depth Functions
-def DepthFunc_GrayScaleDepth(I, options=None):
+# Main Functions
+def CalculateDepth(I, DepthFunc, options=None):
     Depths = np.zeros((I.shape[0], I.shape[1]))
     if I.ndim == 3:
-        Depths = cv2.cvtColor(I, cv2.COLOR_BGR2GRAY)
+        Depths = DepthFunc(I)
 
     if options == None:
         return Depths
@@ -37,13 +37,10 @@ def DepthFunc_GrayScaleDepth(I, options=None):
     
     return Depths
 
-
-# Main Functions
 def ReadImage(imgPath, imgSize=None, keepAspectRatio=False):
     I = cv2.imread(imgPath)
     if not imgSize == None:
         size_original = [I.shape[0], I.shape[1]]
-        print(size_original)
         if keepAspectRatio:
             if imgSize[1] > imgSize[0]:
                 imgSize = (size_original[0] * (imgSize[1] / size_original[1]), imgSize[1])
@@ -56,6 +53,8 @@ def ReadImage(imgPath, imgSize=None, keepAspectRatio=False):
                     imgSize = (imgSize[0], size_original[1] * (imgSize[0] / size_original[0]))
             imgSize = (int(round(imgSize[1])), int(round(imgSize[0])))
         I = cv2.resize(I, imgSize)
+        print("Original Size:", size_original)
+        print("Final Size:", I.shape)
     return I
 
 def DisplayImage(I):
@@ -300,12 +299,12 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'Arch.jpeg'
-imgSize = (100, 100)
+imgName = 'Tes.jpeg'
+imgSize = (250, 250)
 keepAspectRatio = True
 simplify = False
 
-DepthFunc = DepthFunc_GrayScaleDepth
+DepthFunc = DepthLibrary.DepthFunc_AIDepth
 options = {}
 options['mods'] = ['Normalise']#, 'Reverse']
 options['NormaliseRange'] = [0, 1]
@@ -315,6 +314,7 @@ DepthScale = 1
 DepthLimits = None
 ExportDepthMultiplier = np.max(np.array(imgSize))/5
 
+displayDepthMap = True
 display = False
 subPlots = False
 
@@ -338,8 +338,13 @@ if simplify:
     I = ObjectSegmentation_ColorBased(I, imgSize, minExtraColours, pixel_color_span_threshold=pixel_color_span_threshold, minColourDiff=minColourDiff, DiffFunc=DiffFunc, DistanceFunc=DistanceFunc, CustomTopColours=CustomTopColours)
 
 print("Calculating Depths...")
-Depths = DepthFunc(I, options)
+Depths = CalculateDepth(I, DepthFunc, options)
 Depths = Depths * DepthScale
+
+if displayDepthMap:
+    cv2.imwrite(mainPath + os.path.splitext(imgName)[0] + "_DM" + '.png', np.array((Depths*255).astype(np.uint8), dtype=np.uint8))
+    # plt.imshow(Depths, 'gray')
+    # plt.show()
 
 if display:
     print("Displaying...")
