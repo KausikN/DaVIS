@@ -19,13 +19,19 @@
    - Generating 3D models from images using depth based on various factors
    
       - GrayScale Depth
+
          ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_InputImage.png)
+
          ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_DepthImage.png)
+
          ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_Model.PNG)
 
       - AI Depth
+
          ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_InputImage.png)
+
          ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_DepthImage.png)
+
          ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_Model.PNG)
 
 ### Image 2D Visualiser
