@@ -28,7 +28,7 @@
 
       - AI Depth
 
-         ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_InputImage.png)
+         ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_InputImage.PNG)
 
          ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_DepthImage.png)
 
