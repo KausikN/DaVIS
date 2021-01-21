@@ -198,23 +198,23 @@ keepAspectRatio = False
 
 # RunCode
 I = ReadImage(mainPath + imgName, imgSize=imgSize, keepAspectRatio=keepAspectRatio)
-"""
-# Original Image
-I_g = ImageVis_Greyscale(I)
+
+# # Original Image
+# I_g = ImageVis_Greyscale(I)
 ImageVis_RGBChannels(I)
 
-# Dominant Image
+# # Dominant Image
 I_dominant = ImageVis_DominantChannel(I)
-# ImageVis_RGBChannels(I_dominant)
-I_dominant_g = ImageVis_Greyscale(I_dominant)
+ImageVis_RGBChannels(I_dominant)
+# I_dominant_g = ImageVis_Greyscale(I_dominant)
 
-# Differences and Adds
-I_add = ImageOp_Add(I, I_dominant)
-I_diff = ImageOp_Diff(I, I_dominant)
+# # Differences and Adds
+# I_add = ImageOp_Add(I, I_dominant)
+# I_diff = ImageOp_Diff(I, I_dominant)
 
-I_g_add = ImageOp_Add(I_g, I_dominant_g)
-I_g_diff = ImageOp_Diff(I_g, I_dominant_g)
-"""
+# I_g_add = ImageOp_Add(I_g, I_dominant_g)
+# I_g_diff = ImageOp_Diff(I_g, I_dominant_g)
+
 # Histogram
 bins = list(range(0, 256))
 selectRange = [152, 212]

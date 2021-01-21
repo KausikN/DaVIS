@@ -45,13 +45,15 @@
    
       ![Dominant View](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_DominantChannel.png)
 
+      ![Dominant Split](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_RGBDominantChannelSplit.png)
+
       - Histogram Enhance Images
    
-      ![Dominant View](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageEnhance.png)
+      ![Histogram Enhanced](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageEnhance.png)
 
       - View Image Histograms
    
-      ![Dominant View](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageHistogram.png)
+      ![Histogram](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageHistogram.png)
 
 ## AlgoVis
 ### Random Number Generation
