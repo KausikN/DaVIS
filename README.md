@@ -36,8 +36,22 @@
 
 ### Image 2D Visualiser
    - Generating Fun Visualisations of Images
+
+      - Split RGB Channels in images
    
-   ![RGB Split](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_RGBChannelSplit.png)
+      ![RGB Split](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_RGBChannelSplit.png)
+
+      - View dominant colours only in a image
+   
+      ![Dominant View](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_DominantChannel.png)
+
+      - Histogram Enhance Images
+   
+      ![Dominant View](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageEnhance.png)
+
+      - View Image Histograms
+   
+      ![Dominant View](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageHistogram.png)
 
 ## AlgoVis
 ### Random Number Generation
