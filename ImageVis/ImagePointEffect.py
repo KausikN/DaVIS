@@ -82,7 +82,7 @@ def Image2PointsColors(I, DepthFunc, ImagePointLimits):
 
 # Driver Code
 # Params
-imgPath = 'TestImgs/Arch.jpeg'
+imgPath = 'TestImgs/A.jpeg'
 imgSize = (30, 30)
 keepAspectRatio = False
 DepthFunc = DepthFunc_GrayScaleDepth

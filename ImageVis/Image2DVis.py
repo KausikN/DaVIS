@@ -60,19 +60,30 @@ def ImageVis_Greyscale(I):
 
     return I_g
 
-def ImageVis_DominantChannel(I, tqdmDisable=False):
-    I_argmax = np.argmax(I, axis=2)
+def ImageVis_DominantChannel(I):
     I_max = np.max(I, axis=2)
-    I_dominant = np.zeros(I.shape, dtype=np.uint8)
-    for i in tqdm(range(I.shape[0]), disable=tqdmDisable):
-        for j in range(I.shape[1]):
-            I_dominant[i, j, I_argmax[i, j]] = I_max[i, j]
+    I_max = np.dstack((I_max, I_max, I_max))
+    I_dominant = (I)*(I_max == I)
     plt.subplot(1, 2, 1)
     plt.imshow(I)
     plt.title('Original Image')
     plt.subplot(1, 2, 2)
     plt.imshow(I_dominant)
     plt.title('Dominant Channel')
+    plt.show()
+
+    return I_dominant
+
+def ImageVis_LowestChannel(I):
+    I_min = np.min(I, axis=2)
+    I_min = np.dstack((I_min, I_min, I_min))
+    I_lowest = (I)*(I_max == I)
+    plt.subplot(1, 2, 1)
+    plt.imshow(I)
+    plt.title('Original Image')
+    plt.subplot(1, 2, 2)
+    plt.imshow(I_lowest)
+    plt.title('Lowest Channel')
     plt.show()
 
     return I_dominant
@@ -190,7 +201,7 @@ def ImageHistogram_Enhance(I, hist, selectRange=[0, 255], display=False):
 # Driver Code
 # Params
 mainPath = 'TestImgs/'
-imgName = 'Arch.jpeg'
+imgName = 'A.jpeg'
 
 imgSize = None
 keepAspectRatio = False
@@ -217,7 +228,7 @@ ImageVis_RGBChannels(I_dominant)
 
 # Histogram
 bins = list(range(0, 256))
-selectRange = [152, 212]
+selectRange = [100, 255]
 display = True
 
 hist = ImageHistogram_2D(I, bins, display=(display and True))
