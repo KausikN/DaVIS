@@ -7,6 +7,14 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
 import numpy as np
 
+import os
+import cv2
+from PIL import Image
+from tqdm import tqdm
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+
+# Func Animation Plot Visualisation ######################################################################################
 # Main Params
 YData = {}
 XData = {}
@@ -23,7 +31,7 @@ def SavePlotGIF(animation, savePath, fps=25):
     writer = PillowWriter(fps=fps)
     animation.save(savePath, writer=writer)
 
-# Sample Visualisations
+# List Visualisations
 def List_PlotVisualise(values, titles=['', '', ''], plotLines=True, plotPoints=True, annotate=False):
     fig, ax = plt.subplots()
     if plotLines:
@@ -81,6 +89,59 @@ def ListProgressionPlot_Update(i):
     plt.scatter([XData['data'][plotData['curIndex']]], [YData['data'][plotData['curIndex']]])
 
     plotData['curIndex'] += 1
+# Func Animation Plot Visualisation ######################################################################################
+
+# Image by Image Plot Visualisation ######################################################################################
+# Main Vars
+figsize = (6.4, 4.8)
+dpi = 100.0
+fig = Figure(figsize=figsize, dpi=dpi)
+canvas = FigureCanvasAgg(fig)
+
+# Main Functions
+def SaveImages2GIF(frames, savePath, fps=20.0, size=(640, 480)):
+    frames_updated = []
+    for frame in tqdm(frames):
+        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frames_updated.append(Image.fromarray(frame))
+        
+    if os.path.splitext(savePath)[-1] == '.gif':
+        extraFrames = []
+        if len(frames_updated) > 1:
+            extraFrames = frames_updated[1:]
+        frames_updated[0].save(savePath, save_all=True, append_images=extraFrames, format='GIF', loop=0)
+    else:
+        out = cv2.VideoWriter(savePath, cv2.VideoWriter_fourcc(*'XVID'), fps, size)
+        for frame in frames_updated:
+            out.write(frame)
+        out.release()
+
+# Bar Visualisations
+def ListUpdatePlot_Bar(listTrace, showAxis=True):
+    global fig
+    global canvas
+
+    PlotIs = []
+    for i, listVals in enumerate(listTrace):
+        fig.clear(True)
+        ax = fig.add_subplot(111)
+        if not showAxis:
+            ax.axis('off')
+            ax.margins(0)
+            fig.tight_layout(pad=0)
+
+        ax.bar(range(len(listVals)), listVals[:])
+        ax.title.set_text(str(i))
+
+        canvas.draw()
+        buf = canvas.buffer_rgba()
+        I_effect = cv2.cvtColor(np.asarray(buf), cv2.COLOR_RGBA2RGB)
+        PlotIs.append(I_effect)
+
+    return PlotIs
+
+# Image by Image Plot Visualisation ######################################################################################
+
 
 '''
 # Driver Code
