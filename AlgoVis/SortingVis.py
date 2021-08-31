@@ -9,18 +9,18 @@ from Libraries import PlotAnimateLibrary as PAL
 
 # Main Functions
 # Visualiser Functions
-def SortVis_PlotGIF(SortFunc, inputArr, savePath="AlgoVis/GeneratedVisualisations/SortVis_Trace.gif", fps=25.0):
+def SortVis_PlotGIF(SortFunc, inputArr, savePath="AlgoVis/GeneratedVisualisations/SortVis_Trace.gif", duration=2.0):
     print("Input Array:", inputArr)
     sortedArr, trace = SortFunc(inputArr)
     print("Swaps:", len(trace))
     print("Sorted Array:", sortedArr)
     
-    PlotIs = PAL.ListUpdatePlot_Bar(trace)
+    PlotIs = PAL.ListOrderPlot_Bar(trace)
 
-    padding = 50
+    padding = 5
     PlotIs = [PlotIs[0]] * padding + PlotIs + [PlotIs[-1]] * padding
 
-    PAL.SaveImages2GIF(PlotIs, savePath, fps=fps)
+    PAL.SaveImages2GIF(PlotIs, savePath, fps=len(PlotIs)/duration)
 
 # Sort Functions
 def Sort_InsertionSort(inputArr):
@@ -174,11 +174,12 @@ def Sort_QuickSort(inputArr): # TODO: Fix
 
 # Driver Code
 # Params
-SortFunc = Sort_QuickSort
+SortFunc = Sort_MergeSort
 
-arraySize = 25
+arraySize = 100
 
-savePath = "AlgoVis/GeneratedVisualisations/SortVis_" + SortFunc.__name__ + ".gif"
+savePath = "AlgoVis/GeneratedVisualisations/SortVis_" + SortFunc.__name__ + ".avi"
+duration = 10.0
 # Params
 
 # RunCode
@@ -187,4 +188,4 @@ inputArr = np.arange(arraySize)
 np.random.shuffle(inputArr)
 
 # Visualise
-SortVis_PlotGIF(SortFunc, inputArr, savePath, fps=5.0)
+SortVis_PlotGIF(SortFunc, inputArr, savePath, duration=duration)
