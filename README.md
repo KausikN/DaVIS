@@ -5,68 +5,87 @@
 ### Audio Spectrogram Visualiser
    - Plots spectrograms of audio files
    
-   ![Audio Wave](https://github.com/KausikN/DaVIS/blob/master/AudioVis/GeneratedVisualisations/AudioSpectrogram_AudioWave.png)
-   ![Audio Spectrogram](https://github.com/KausikN/DaVIS/blob/master/AudioVis/GeneratedVisualisations/AudioSpectrogram_Spectrogram.png)
+   ![Audio Wave](AudioVis/GeneratedVisualisations/AudioSpectrogram_AudioWave.png)
+   ![Audio Spectrogram](AudioVis/GeneratedVisualisations/AudioSpectrogram_Spectrogram.png)
    
 ## ImageVis
 ### Image Point Effects
    - Generating Fun 3D Effects from Images
    
-   ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Pika.jpg)
-   ![Effect GIF](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Pika_IPEffect.gif)
+   ![Input Image](ImageVis/GeneratedVisualisations/Pika.jpg)
+   ![Effect GIF](ImageVis/GeneratedVisualisations/Pika_IPEffect.gif)
 
 ### Image 3D Model Generator
    - Generating 3D models from images using depth based on various factors
    
       - GrayScale Depth
 
-         ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_InputImage.png)
+         ![Input Image](ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_InputImage.png)
 
-         ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_DepthImage.png)
+         ![Depth Image](ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_DepthImage.png)
 
-         ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_Model.PNG)
+         ![Depth Model](ImageVis/GeneratedVisualisations/Image3DVis_GrayScaleDepth_Model.PNG)
 
       - AI Depth
 
-         ![Input Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_InputImage.PNG)
+         ![Input Image](ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_InputImage.PNG)
 
-         ![Depth Image](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_DepthImage.png)
+         ![Depth Image](ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_DepthImage.png)
 
-         ![Depth Model](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_Model.PNG)
+         ![Depth Model](ImageVis/GeneratedVisualisations/Image3DVis_AIDepth_Model.PNG)
 
 ### Image 2D Visualiser
    - Generating Fun Visualisations of Images
 
       - Split RGB Channels in images
    
-      ![RGB Split](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_RGBChannelSplit.png)
+      ![RGB Split](ImageVis/GeneratedVisualisations/Image2DVis_RGBChannelSplit.png)
 
       - View dominant colours only in a image
    
-      ![Dominant View](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_DominantChannel.png)
+      ![Dominant View](ImageVis/GeneratedVisualisations/Image2DVis_DominantChannel.png)
 
-      ![Dominant Split](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_RGBDominantChannelSplit.png)
+      ![Dominant Split](ImageVis/GeneratedVisualisations/Image2DVis_RGBDominantChannelSplit.png)
 
       - Histogram Enhance Images
    
-      ![Histogram Enhanced](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageEnhance.png)
+      ![Histogram Enhanced](ImageVis/GeneratedVisualisations/Image2DVis_ImageEnhance.png)
 
       - View Image Histograms
    
-      ![Histogram](https://github.com/KausikN/DaVIS/blob/master/ImageVis/GeneratedVisualisations/Image2DVis_ImageHistogram.png)
+      ![Histogram](ImageVis/GeneratedVisualisations/Image2DVis_ImageHistogram.png)
 
 ## AlgoVis
 ### Random Number Generation
    - Visualise Output Distribution on python's inbuilt Random Function
    
-   ![Random Generator](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/RandomGen_GIF.gif)
+   ![Random Generator](AlgoVis/GeneratedVisualisations/RandomGen_GIF.gif)
    
+### Sorting Algorithms Visualiser
+   Visualise sorting procedures for various sorting algorithms
+
+   - Bubble Sort
+   
+   ![Bubble Sort Vis](AlgoVis/GeneratedVisualisations/SortVis_Sort_BubbleSort.gif)
+
+   - Insertion Sort
+   
+   ![Insertion Sort Vis](AlgoVis/GeneratedVisualisations/SortVis_Sort_InsertionSort.gif)
+
+   - Selection Sort
+   
+   ![Selection Sort Vis](AlgoVis/GeneratedVisualisations/SortVis_Sort_SelectionSort.gif)
+
+   - Merge Sort
+   
+   ![Merge Sort Vis](AlgoVis/GeneratedVisualisations/SortVis_Sort_MergeSort.gif)
+
 ### Collatz Conjecture
    - Visualise Collatz Conjecture Convergence
    
-   ![Collatz Conjecture 1](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceSingleValue.png)
-   ![Collatz Conjecture Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceTurtle.PNG)
-   ![Collatz Conjecture 2](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceItersCount.png)
+   ![Collatz Conjecture 1](AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceSingleValue.png)
+   ![Collatz Conjecture Turtle](AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceTurtle.PNG)
+   ![Collatz Conjecture 2](AlgoVis/GeneratedVisualisations/CollatzConjecture_ConvergenceItersCount.png)
    
    - Video on Collatz Conjecture
    
@@ -75,8 +94,8 @@
 ### Bifurcate Population Convergence
    - Visualise Bifurcate Population Convergence
    
-   ![Bifurcate 1](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Bifurcation_PopulationConvergence.png)
-   ![Bifurcate 2](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Bifurcation_BifurcationPlot.png)
+   ![Bifurcate 1](AlgoVis/GeneratedVisualisations/Bifurcation_PopulationConvergence.png)
+   ![Bifurcate 2](AlgoVis/GeneratedVisualisations/Bifurcation_BifurcationPlot.png)
       
    - Video on Bifurcate Population Conjecture
    
@@ -85,8 +104,8 @@
 ### Recaman Sequence
    - Visualise Recaman Sequence
    
-   ![Recaman Sequence](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Recaman_Sequence.png)
-   ![Recaman Sequence Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Recaman_SequenceTurtle.PNG)
+   ![Recaman Sequence](AlgoVis/GeneratedVisualisations/Recaman_Sequence.png)
+   ![Recaman Sequence Turtle](AlgoVis/GeneratedVisualisations/Recaman_SequenceTurtle.PNG)
       
    - Video on Recaman Sequence
    
@@ -97,18 +116,18 @@
    
    - Standard Fibonacci Sequence
 
-   ![Standard Fibonacci](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_Standard.png)
-   ![Standard Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_StandardTurtle.PNG)
+   ![Standard Fibonacci](AlgoVis/GeneratedVisualisations/Fibonacci_Standard.png)
+   ![Standard Fibonacci Turtle](AlgoVis/GeneratedVisualisations/Fibonacci_StandardTurtle.PNG)
 
    - General Length Fibonacci Sequence
 
-   ![General Length Fibonacci](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericLength.png)
-   ![General Length Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericLengthTurtle.PNG)
+   ![General Length Fibonacci](AlgoVis/GeneratedVisualisations/Fibonacci_GenericLength.png)
+   ![General Length Fibonacci Turtle](AlgoVis/GeneratedVisualisations/Fibonacci_GenericLengthTurtle.PNG)
 
    - Custom Function Fibonacci Sequence - Here used Reverse Fibonacci Function
 
-   ![General Func Fibonacci](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericFunc.png)
-   ![General Func Fibonacci Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/Fibonacci_GenericFuncTurtle.PNG)
+   ![General Func Fibonacci](AlgoVis/GeneratedVisualisations/Fibonacci_GenericFunc.png)
+   ![General Func Fibonacci Turtle](AlgoVis/GeneratedVisualisations/Fibonacci_GenericFuncTurtle.PNG)
 
    - Video on Fibonacci Sequence
    
@@ -117,6 +136,6 @@
 ### Digit Sum and Multiply Convergence
    - Visualise Digit Sum and Multiply Convergence
    
-   ![Digit Multiply 1](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceSingleValue.png)
-   ![Digit Multiply Turtle](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceTurtle.PNG)
-   ![Digit Multiply 2](https://github.com/KausikN/DaVIS/blob/master/AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceItersCount.png)
+   ![Digit Multiply 1](AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceSingleValue.png)
+   ![Digit Multiply Turtle](AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceTurtle.PNG)
+   ![Digit Multiply 2](AlgoVis/GeneratedVisualisations/DigitMultiply_ConvergenceItersCount.png)

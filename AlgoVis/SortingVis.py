@@ -90,6 +90,7 @@ def Sort_MergeSort(inputArr):
     i = 0
     j = 0
     k = 0
+    sortedArr = leftSortedArr + rightSortedArr
     while i < len(leftSortedArr) and j < len(rightSortedArr):
         if leftSortedArr[i] < rightSortedArr[j]:
             # sortedArr[i] = sortedArr[k]
@@ -176,10 +177,10 @@ def Sort_QuickSort(inputArr): # TODO: Fix
 # Params
 SortFunc = Sort_MergeSort
 
-arraySize = 100
+arraySize = 25
 
-savePath = "AlgoVis/GeneratedVisualisations/SortVis_" + SortFunc.__name__ + ".avi"
-duration = 10.0
+savePath = "AlgoVis/GeneratedVisualisations/SortVis_" + SortFunc.__name__ + ".gif"
+duration = 2.0
 # Params
 
 # RunCode
