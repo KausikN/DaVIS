@@ -57,4 +57,4 @@
 
 ## AlgoVis
 
- - Moved to a separate repo: [https://www.github.com/KausikN/AlgoVis](AlgoVis)
+ - Moved to a separate repo: [AlgoVis](https://www.github.com/KausikN/AlgoVis)
