@@ -14,7 +14,7 @@ from torchvision import transforms
 import matplotlib as mpl
 import matplotlib.cm as cm
 
-from Libraries.MonoDepth import networks
+from . import networks
 
 # Main Functions
 def CalculateDepth(I, modelPath="models/mono+stereo_640x192", savePath=None):

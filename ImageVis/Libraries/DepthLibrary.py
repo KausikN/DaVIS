@@ -6,7 +6,7 @@ Depth Functions
 import cv2
 import numpy as np
 
-from Libraries.MonoDepth import calc_depth
+from .MonoDepth import calc_depth
 
 # Main Functions
 def DepthFunc_GrayScaleDepth(I):
@@ -20,5 +20,11 @@ def DepthFunc_AIDepth(I):
     DepthsTorchArray = calc_depth.CalculateDepth(I, modelPath="ImageVis/Libraries/MonoDepth/models/mono+stereo_640x192", savePath=savePath)
     Depths = np.array(DepthsTorchArray)
     return Depths
+
+# Main Vars
+DEPTH_FUNCS = {
+    "Grayscale Depth": DepthFunc_GrayScaleDepth,
+    "AI Depth Detector": DepthFunc_AIDepth
+}
 
 # Driver Code

@@ -1,0 +1,10 @@
+{
+    "PROJECT_NAME": "DaVIS",
+    "PROJECT_LINK": "https://github.com/KausikN/DaVIS",
+
+    "PROJECT_DESC": "DaVIS is a Data Visualiser Tool for visualising data in various unconventional methods to provide more insights",
+
+    "PROJECT_README": "README.md",
+
+    "PROJECT_MODES": ["Image 2D Vis", "Image 3D Vis", "Audio Vis"]
+}

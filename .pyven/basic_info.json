@@ -1,0 +1,7 @@
+{
+    "repo_name": "DaVIS",
+    "requirements": [
+        "streamlit",
+        "opencv-python-headless"
+    ]
+}

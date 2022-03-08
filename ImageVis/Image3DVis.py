@@ -11,8 +11,8 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits import mplot3d
 from tqdm import tqdm
 
-from Libraries import DepthLibrary
-from Libraries import MeshLibrary
+from .Libraries import DepthLibrary
+# from .Libraries import MeshLibrary
 
 # Main Functions
 def CalculateDepth(I, DepthFunc, options=None):
@@ -37,8 +37,7 @@ def CalculateDepth(I, DepthFunc, options=None):
     
     return Depths
 
-def ReadImage(imgPath, imgSize=None, keepAspectRatio=False):
-    I = cv2.imread(imgPath)
+def ResizeImage(I, imgSize=None, keepAspectRatio=False):
     if not imgSize == None:
         size_original = [I.shape[0], I.shape[1]]
         if keepAspectRatio:
@@ -250,7 +249,7 @@ def Split3DData(I, Depths):
     return points, colors 
 
 # Plot Functions
-def PlotImage3D_Plane(I, Depths, DepthLimits=None, subPlots=False):
+def PlotImage3D_Plane(I, Depths, DepthLimits=None, subPlots=False, display=True):
     if DepthLimits is None:
         DepthLimits = [np.min(Depths)-0, np.max(Depths)+1]
 
@@ -258,20 +257,23 @@ def PlotImage3D_Plane(I, Depths, DepthLimits=None, subPlots=False):
     Z = Depths
     facecolors = cv2.cvtColor(I, cv2.COLOR_BGR2RGBA) / 255
 
+    fig = plt.figure()
+
     if not subPlots:
-        fig = plt.figure()
         ax = plt.axes(projection='3d')
         ax.plot_surface(X, Y, Z, rstride=1, cstride=1, facecolors=facecolors, shade=False)
         ax.set_zlim3d(DepthLimits[0], DepthLimits[1])
-    
     else:
         ax2 = plt.subplot(1, 2, 1)
         plt.imshow(I)
         ax = plt.subplot(1, 2, 2, projection='3d')
         ax.plot_surface(X, Y, Z, rstride=1, cstride=1, facecolors=facecolors, shade=False)
         ax.set_zlim3d(DepthLimits[0], DepthLimits[1])
-        
-    plt.show()
+
+    if display:
+        plt.show()
+
+    return fig
 
 def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
     if DepthLimits is None:
@@ -297,66 +299,66 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
     plt.show()
 
 # Driver Code
-# Params
-mainPath = 'TestImgs/'
-imgName = 'A.jpeg'
-imgSize = (250, 250)
-keepAspectRatio = True
-simplify = False
+# # Params
+# mainPath = 'TestImgs/'
+# imgName = 'A.jpeg'
+# imgSize = (250, 250)
+# keepAspectRatio = True
+# simplify = False
 
-DepthFunc = DepthLibrary.DepthFunc_AIDepth
-options = {}
-options['mods'] = ['Normalise']#, 'Reverse']
-options['NormaliseRange'] = [0, 1]
-options['DepthRange'] = [0, 255]
+# DepthFunc = DepthLibrary.DepthFunc_AIDepth
+# options = {}
+# options['mods'] = ['Normalise']#, 'Reverse']
+# options['NormaliseRange'] = [0, 1]
+# options['DepthRange'] = [0, 255]
 
-DepthScale = 1
-DepthLimits = None
-ExportDepthMultiplier = np.max(np.array(imgSize))/5
+# DepthScale = 1
+# DepthLimits = None
+# ExportDepthMultiplier = np.max(np.array(imgSize))/5
 
-displayDepthMap = True
-display = False
-subPlots = False
+# displayDepthMap = True
+# display = False
+# subPlots = False
 
-method = 2
+# method = 2
 
-# Run Code
-I = ReadImage(mainPath + imgName, imgSize, keepAspectRatio)
-imgSize = (I.shape[0], I.shape[1])
-if display:
-    print(imgSize)
-    DisplayImage(I)
+# # Run Code
+# I = cv2.imread(mainPath + imgName)
+# I = ResizeImage(I, imgSize, keepAspectRatio)
+# imgSize = (I.shape[0], I.shape[1])
+# if display:
+#     DisplayImage(I)
 
-if simplify:
-    minExtraColours = 1
-    pixel_color_span_threshold = 0.0
-    DiffFunc = CheckColourCloseness_Dist_L1Norm
-    minColourDiff = 100
-    DistanceFunc = EuclideanDistance
-    CustomTopColours = None
+# if simplify:
+#     minExtraColours = 1
+#     pixel_color_span_threshold = 0.0
+#     DiffFunc = CheckColourCloseness_Dist_L1Norm
+#     minColourDiff = 100
+#     DistanceFunc = EuclideanDistance
+#     CustomTopColours = None
 
-    I = ObjectSegmentation_ColorBased(I, imgSize, minExtraColours, pixel_color_span_threshold=pixel_color_span_threshold, minColourDiff=minColourDiff, DiffFunc=DiffFunc, DistanceFunc=DistanceFunc, CustomTopColours=CustomTopColours)
+#     I = ObjectSegmentation_ColorBased(I, imgSize, minExtraColours, pixel_color_span_threshold=pixel_color_span_threshold, minColourDiff=minColourDiff, DiffFunc=DiffFunc, DistanceFunc=DistanceFunc, CustomTopColours=CustomTopColours)
 
-print("Calculating Depths...")
-Depths = CalculateDepth(I, DepthFunc, options)
-Depths = Depths * DepthScale
+# print("Calculating Depths...")
+# Depths = CalculateDepth(I, DepthFunc, options)
+# Depths = Depths * DepthScale
 
-if displayDepthMap:
-    cv2.imwrite(mainPath + os.path.splitext(imgName)[0] + "_DM" + '.png', np.array((Depths*255).astype(np.uint8), dtype=np.uint8))
-    # plt.imshow(Depths, 'gray')
-    # plt.show()
+# if displayDepthMap:
+#     cv2.imwrite(mainPath + os.path.splitext(imgName)[0] + "_DM" + '.png', np.array((Depths*255).astype(np.uint8), dtype=np.uint8))
+#     # plt.imshow(Depths, 'gray')
+#     # plt.show()
 
-if display:
-    print("Displaying...")
-    PlotImage3D_Plane(I, Depths, DepthLimits, subPlots)
+# if display:
+#     print("Displaying...")
+#     PlotImage3D_Plane(I, Depths, DepthLimits, subPlots)
 
-print("Exporting...")
+# print("Exporting...")
 
-# Create 3D Model METHOD 1
-if method == 1:
-    points, colors = Split3DData(I, Depths*ExportDepthMultiplier)
-    mesh = MeshLibrary.Points_to_3DModel(points, colors, method='rolling', exportPath=mainPath + os.path.splitext(imgName)[0] + '.ply', displayMesh=display)
+# # Create 3D Model METHOD 1
+# if method == 1:
+#     points, colors = Split3DData(I, Depths*ExportDepthMultiplier)
+#     mesh = MeshLibrary.Points_to_3DModel(points, colors, method='rolling', exportPath=mainPath + os.path.splitext(imgName)[0] + '.ply', displayMesh=display)
 
-# Create Terrain
-if method == 2:
-    mesh = MeshLibrary.DepthImage_to_Terrain(Depths*ExportDepthMultiplier, I, mainPath + imgName, name=os.path.splitext(imgName)[0], exportPath=mainPath + os.path.splitext(imgName)[0] + '.obj')
+# # Create Terrain
+# if method == 2:
+#     mesh = MeshLibrary.DepthImage_to_Terrain(Depths*ExportDepthMultiplier, I, mainPath + imgName, name=os.path.splitext(imgName)[0], exportPath=mainPath + os.path.splitext(imgName)[0] + '.obj')

@@ -29,97 +29,106 @@ def ReadImage(imgPath, imgSize=None, keepAspectRatio=False):
     I = cv2.cvtColor(I, cv2.COLOR_BGR2RGB)
     return I
 
-def ImageVis_RGBChannels(I):
+def ImageVis_RGBChannels(I, display=True):
     I_r = I * [1, 0, 0]
     I_g = I * [0, 1, 0]
     I_b = I * [0, 0, 1]
 
-    plt.subplot(2, 3, 2)
-    plt.imshow(I)
-    plt.title('Original Image')
-    plt.subplot(2, 3, 4)
-    plt.imshow(I_r)
-    plt.subplot(2, 3, 5)
-    plt.imshow(I_g)
-    plt.title('RGB Channels')
-    plt.subplot(2, 3, 6)
-    plt.imshow(I_b)
-    plt.show()
+    if display:
+        plt.subplot(2, 3, 2)
+        plt.imshow(I)
+        plt.title('Original Image')
+        plt.subplot(2, 3, 4)
+        plt.imshow(I_r)
+        plt.subplot(2, 3, 5)
+        plt.imshow(I_g)
+        plt.title('RGB Channels')
+        plt.subplot(2, 3, 6)
+        plt.imshow(I_b)
+        plt.show()
 
     return I_r, I_g, I_b
 
-def ImageVis_Greyscale(I):
+def ImageVis_Greyscale(I, display=True):
     I_g = cv2.cvtColor(I, cv2.COLOR_RGB2GRAY)
-    plt.subplot(1, 2, 1)
-    plt.imshow(I)
-    plt.title('Original Image')
-    plt.subplot(1, 2, 2)
-    plt.imshow(I_g, 'gray')
-    plt.title('GrayScale Image')
-    plt.show()
+
+    if display:
+        plt.subplot(1, 2, 1)
+        plt.imshow(I)
+        plt.title('Original Image')
+        plt.subplot(1, 2, 2)
+        plt.imshow(I_g, 'gray')
+        plt.title('GrayScale Image')
+        plt.show()
 
     return I_g
 
-def ImageVis_DominantChannel(I):
+def ImageVis_DominantChannel(I, display=True):
     I_max = np.max(I, axis=2)
     I_max = np.dstack((I_max, I_max, I_max))
     I_dominant = (I)*(I_max == I)
-    plt.subplot(1, 2, 1)
-    plt.imshow(I)
-    plt.title('Original Image')
-    plt.subplot(1, 2, 2)
-    plt.imshow(I_dominant)
-    plt.title('Dominant Channel')
-    plt.show()
+
+    if display:
+        plt.subplot(1, 2, 1)
+        plt.imshow(I)
+        plt.title('Original Image')
+        plt.subplot(1, 2, 2)
+        plt.imshow(I_dominant)
+        plt.title('Dominant Channel')
+        plt.show()
 
     return I_dominant
 
-def ImageVis_LowestChannel(I):
+def ImageVis_LowestChannel(I, display=True):
     I_min = np.min(I, axis=2)
     I_min = np.dstack((I_min, I_min, I_min))
-    I_lowest = (I)*(I_max == I)
-    plt.subplot(1, 2, 1)
-    plt.imshow(I)
-    plt.title('Original Image')
-    plt.subplot(1, 2, 2)
-    plt.imshow(I_lowest)
-    plt.title('Lowest Channel')
-    plt.show()
+    I_lowest = (I)*(I_min == I)
 
-    return I_dominant
+    if display:
+        plt.subplot(1, 2, 1)
+        plt.imshow(I)
+        plt.title('Original Image')
+        plt.subplot(1, 2, 2)
+        plt.imshow(I_lowest)
+        plt.title('Lowest Channel')
+        plt.show()
+
+    return I_lowest
 
 # Image Operations
-def ImageOp_Add(I1, I2):
+def ImageOp_Add(I1, I2, display=True):
     I_add = np.array(I1, dtype=int) + np.array(I2, dtype=int)
     I_add = np.array(np.clip(I_add, a_min=0, a_max=255), dtype=np.uint8)
 
-    plt.subplot(2, 2, 1)
-    plt.imshow(I1, 'gray')
-    plt.title('I1')
-    plt.subplot(2, 2, 2)
-    plt.imshow(I2, 'gray')
-    plt.title('I2')
-    plt.subplot(2, 2, 3)
-    plt.imshow(I_add, 'gray')
-    plt.title('Added Image')
-    plt.show()
+    if display:
+        plt.subplot(2, 2, 1)
+        plt.imshow(I1, 'gray')
+        plt.title('I1')
+        plt.subplot(2, 2, 2)
+        plt.imshow(I2, 'gray')
+        plt.title('I2')
+        plt.subplot(2, 2, 3)
+        plt.imshow(I_add, 'gray')
+        plt.title('Added Image')
+        plt.show()
 
     return I_add
 
-def ImageOp_Diff(I1, I2):
+def ImageOp_Diff(I1, I2, display=True):
     I_diff = np.array(I1, dtype=int) - np.array(I2, dtype=int)
     I_diff = np.array(np.clip(I_diff, a_min=0, a_max=255), dtype=np.uint8)
 
-    plt.subplot(2, 2, 1)
-    plt.imshow(I1, 'gray')
-    plt.title('I1')
-    plt.subplot(2, 2, 2)
-    plt.imshow(I2, 'gray')
-    plt.title('I2')
-    plt.subplot(2, 2, 3)
-    plt.imshow(I_diff, 'gray')
-    plt.title('Difference Image')
-    plt.show()
+    if display:
+        plt.subplot(2, 2, 1)
+        plt.imshow(I1, 'gray')
+        plt.title('I1')
+        plt.subplot(2, 2, 2)
+        plt.imshow(I2, 'gray')
+        plt.title('I2')
+        plt.subplot(2, 2, 3)
+        plt.imshow(I_diff, 'gray')
+        plt.title('Difference Image')
+        plt.show()
 
     return I_diff
 
@@ -199,37 +208,37 @@ def ImageHistogram_Enhance(I, hist, selectRange=[0, 255], display=False):
 
 
 # Driver Code
-# Params
-mainPath = 'TestImgs/'
-imgName = 'A.jpeg'
+# # Params
+# mainPath = 'TestImgs/'
+# imgName = 'A.jpeg'
 
-imgSize = None
-keepAspectRatio = False
-# Params
+# imgSize = None
+# keepAspectRatio = False
+# # Params
 
-# RunCode
-I = ReadImage(mainPath + imgName, imgSize=imgSize, keepAspectRatio=keepAspectRatio)
+# # RunCode
+# I = ReadImage(mainPath + imgName, imgSize=imgSize, keepAspectRatio=keepAspectRatio)
 
-# # Original Image
-# I_g = ImageVis_Greyscale(I)
-ImageVis_RGBChannels(I)
+# # # Original Image
+# # I_g = ImageVis_Greyscale(I)
+# ImageVis_RGBChannels(I)
 
-# # Dominant Image
-I_dominant = ImageVis_DominantChannel(I)
-ImageVis_RGBChannels(I_dominant)
-# I_dominant_g = ImageVis_Greyscale(I_dominant)
+# # # Dominant Image
+# I_dominant = ImageVis_DominantChannel(I)
+# ImageVis_RGBChannels(I_dominant)
+# # I_dominant_g = ImageVis_Greyscale(I_dominant)
 
-# # Differences and Adds
-# I_add = ImageOp_Add(I, I_dominant)
-# I_diff = ImageOp_Diff(I, I_dominant)
+# # # Differences and Adds
+# # I_add = ImageOp_Add(I, I_dominant)
+# # I_diff = ImageOp_Diff(I, I_dominant)
 
-# I_g_add = ImageOp_Add(I_g, I_dominant_g)
-# I_g_diff = ImageOp_Diff(I_g, I_dominant_g)
+# # I_g_add = ImageOp_Add(I_g, I_dominant_g)
+# # I_g_diff = ImageOp_Diff(I_g, I_dominant_g)
 
-# Histogram
-bins = list(range(0, 256))
-selectRange = [100, 255]
-display = True
+# # Histogram
+# bins = list(range(0, 256))
+# selectRange = [100, 255]
+# display = True
 
-hist = ImageHistogram_2D(I, bins, display=(display and True))
-I_enhanced = ImageHistogram_Enhance(I, hist, selectRange=selectRange, display=display)
+# hist = ImageHistogram_2D(I, bins, display=(display and True))
+# I_enhanced = ImageHistogram_Enhance(I, hist, selectRange=selectRange, display=display)
