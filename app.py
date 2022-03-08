@@ -13,6 +13,7 @@ import json
 
 from ImageVis import Image2DVis
 from ImageVis import Image3DVis
+from AudioVis import Audio2DVis
 
 # Main Vars
 config = json.load(open('./StreamLitGUI/UIConfig.json', 'r'))
@@ -47,6 +48,10 @@ def HomePage():
 # Repo Based Vars
 CACHE_PATH = "StreamLitGUI/CacheData/Cache.json"
 DEFAULT_IMAGE_PATH = "TestImgs/Arch.jpeg"
+DEFAULT_AUDIO_PATH = "TestAudio/DN.mp3"
+
+SAVE_AUDIO_PATH = "StreamLitGUI/CacheData/CacheAudio.mp3"
+SAVE_CUTAUDIO_PATH = "StreamLitGUI/CacheData/CacheCutAudio.wav"
 
 # Util Vars
 CACHE = {}
@@ -73,6 +78,22 @@ def UI_LoadImage():
     USERINPUT_ImageData = cv2.imdecode(np.frombuffer(USERINPUT_ImageData, np.uint8), cv2.IMREAD_COLOR)
     USERINPUT_Image = cv2.cvtColor(USERINPUT_ImageData, cv2.COLOR_BGR2RGB)
     return USERINPUT_Image
+
+def UI_LoadAudio():
+    USERINPUT_AudioData = st.file_uploader("Upload Audio", ['mp3'])
+    if USERINPUT_AudioData is not None:
+        open(SAVE_AUDIO_PATH, 'wb').write(USERINPUT_AudioData.read())
+        USERINPUT_AudioPath = SAVE_AUDIO_PATH
+    else:
+        USERINPUT_AudioPath = DEFAULT_AUDIO_PATH
+
+    col1, col2 = st.columns(2)
+    OFFSET = col1.number_input("Start Time", 0.0, 100.0, 0.0, 0.1)
+    DURATION = col2.number_input("Duration", 0.1, 10.0, 1.0, 0.1)
+    AUDIO, SAMPLE_RATE = Audio2DVis.LoadAudio(USERINPUT_AudioPath, duration=DURATION, offset=OFFSET)
+    Audio2DVis.SaveAudio(AUDIO, SAMPLE_RATE, SAVE_CUTAUDIO_PATH)
+
+    return AUDIO, SAMPLE_RATE
 
 # Repo Based Functions
 def image_2d_vis():
@@ -116,7 +137,7 @@ def image_2d_vis():
     histFig = plt.figure()
     plt.title("Image Histogram")
     plt.bar(bins, histVals, width=1)
-    st.pyplot(histFig)
+    st.plotly_chart(histFig, use_container_width=True)
     st.image(I_histenhanced, caption="Histogram Enhanced", use_column_width=True)
 
 def image_3d_vis():
@@ -145,7 +166,7 @@ def image_3d_vis():
     Depths = Image3DVis.CalculateDepth(I, DepthFunc, options)
     Depths = Depths * DepthScale
     I_depth = np.array(Depths*255, dtype=np.uint8)
-    modelFig = Image3DVis.PlotImage3D_Plane(cv2.cvtColor(I, cv2.COLOR_RGB2BGR), Depths, DepthLimits, False, display=False)
+    modelFig = Image3DVis.PlotImage3D_Plane(cv2.cvtColor(I, cv2.COLOR_RGB2BGR), Depths, DepthLimits, display=False)
     
     # Display Outputs
     # Original
@@ -153,7 +174,31 @@ def image_3d_vis():
     # Depth Map
     st.image(I_depth, caption="Depth Map", use_column_width=True)
     # 3D Model
-    st.pyplot(modelFig)
+    st.plotly_chart(modelFig, use_container_width=True)
+
+def audio_2d_vis():
+    # Title
+    st.header("Audio 2D Vis")
+
+    # Prereq Loaders
+
+    # Load Inputs
+    AUDIO, SAMPLE_RATE = UI_LoadAudio()
+
+    # Process Inputs
+    fig_WAVE = Audio2DVis.DisplayAudio_WavePlot(AUDIO, SAMPLE_RATE, display=False)
+    FREQUENCIES, TIMES, SPECTROGRAM = Audio2DVis.GetFrequencyData(AUDIO, SAMPLE_RATE)
+    spectrogram_min, spectrogram_max = SPECTROGRAM.min(), SPECTROGRAM.max()
+    SPECTROGRAM_norm = (SPECTROGRAM - spectrogram_min) / (spectrogram_max - spectrogram_min)
+    SPECTROGRAM_norm = np.array(SPECTROGRAM_norm * 255, dtype=np.uint8)
+    fig_MAXFREQ = Audio2DVis.DisplayMaxFrequencyGraph(FREQUENCIES, TIMES, SPECTROGRAM, plotSkip=1, display=False)
+
+    # Display Outputs
+    st.audio(open(SAVE_CUTAUDIO_PATH, "rb").read(), format="audio/wav", start_time=0)
+    st.plotly_chart(fig_WAVE, use_container_width=True)
+    st.image(SPECTROGRAM_norm, caption="Spectrogram", use_column_width=True)
+    st.plotly_chart(fig_MAXFREQ, use_container_width=True)
+    
 
 #############################################################################################################################
 # Driver Code

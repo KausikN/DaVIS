@@ -7,8 +7,8 @@ import os
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits import mplot3d
+import plotly.graph_objects as graph
+from PIL import Image
 from tqdm import tqdm
 
 from .Libraries import DepthLibrary
@@ -249,33 +249,32 @@ def Split3DData(I, Depths):
     return points, colors 
 
 # Plot Functions
-def PlotImage3D_Plane(I, Depths, DepthLimits=None, subPlots=False, display=True):
+def PlotImage3D_Plane(I, Depths, DepthLimits=None, display=True):
     if DepthLimits is None:
         DepthLimits = [np.min(Depths)-0, np.max(Depths)+1]
 
     X, Y = np.meshgrid(np.linspace(0, 1, I.shape[1]), np.linspace(0, 1, I.shape[0]))
     Z = Depths
-    facecolors = cv2.cvtColor(I, cv2.COLOR_BGR2RGBA) / 255
+    facecolors = np.array(cv2.cvtColor(I, cv2.COLOR_BGR2RGBA), dtype=np.uint8)
 
     fig = plt.figure()
 
-    if not subPlots:
-        ax = plt.axes(projection='3d')
-        ax.plot_surface(X, Y, Z, rstride=1, cstride=1, facecolors=facecolors, shade=False)
-        ax.set_zlim3d(DepthLimits[0], DepthLimits[1])
-    else:
-        ax2 = plt.subplot(1, 2, 1)
-        plt.imshow(I)
-        ax = plt.subplot(1, 2, 2, projection='3d')
-        ax.plot_surface(X, Y, Z, rstride=1, cstride=1, facecolors=facecolors, shade=False)
-        ax.set_zlim3d(DepthLimits[0], DepthLimits[1])
+    I_8bit = Image.fromarray(facecolors).convert('P', palette='WEB', dither=None)
+    I_idx = Image.fromarray(facecolors).convert('P', palette='WEB')
+    idx_to_color = np.array(I_idx.getpalette()).reshape((-1, 3))
+    colorscale=[[i/255.0, "rgb({}, {}, {})".format(*rgb)] for i, rgb in enumerate(idx_to_color)]
+
+    fig = graph.Figure(data=[graph.Surface(
+        z=Z, surfacecolor=I_8bit, cmin=0, cmax=255, colorscale=colorscale, showscale=False
+    )])
+    fig.update_layout(title='', autosize=True)
 
     if display:
         plt.show()
 
     return fig
 
-def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
+def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), display=True):
     if DepthLimits is None:
         DepthLimits = [np.min(Depths)-0, np.max(Depths)+1]
         
@@ -283,20 +282,15 @@ def PlotImage3D_Points(I, Depths, DepthLimits=(0, 1), subPlots=False):
     Z = Depths
     facecolors = cv2.cvtColor(I, cv2.COLOR_BGR2RGBA) / 255
 
-    if not subPlots:
-        fig = plt.figure()
-        ax = plt.axes(projection='3d')
-        ax.scatter(X, Y, Z, c=Depths)
-        ax.set_zlim3d(DepthLimits[0], DepthLimits[1])
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+    ax.scatter(X, Y, Z, c=Depths)
+    ax.set_zlim3d(DepthLimits[0], DepthLimits[1])
     
-    else:
-        ax2 = plt.subplot(1, 2, 1)
-        plt.imshow(I)
-        ax = plt.subplot(1, 2, 2, projection='3d')
-        ax.scatter(X, Y, Z, c=Depths)
-        ax.set_zlim3d(DepthLimits[0], DepthLimits[1])
-        
-    plt.show()
+    if display:
+        plt.show()
+    
+    return fig
 
 # Driver Code
 # # Params

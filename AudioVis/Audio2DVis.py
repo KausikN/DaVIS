@@ -5,13 +5,19 @@ https://analyticsindiamag.com/step-by-step-guide-to-audio-visualization-in-pytho
 
 # Imports
 from scipy import signal
-from scipy.io import wavfile
 import librosa
 import librosa.display
-import wave
+import soundfile
+# import wave
 # import pyaudio
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+COLOR = '#93CAED'
+mpl.rcParams['text.color'] = COLOR
+mpl.rcParams['axes.labelcolor'] = COLOR
+mpl.rcParams['xtick.color'] = COLOR
+mpl.rcParams['ytick.color'] = COLOR
 from tqdm import tqdm
 
 # # PyAudio Instance
@@ -61,59 +67,69 @@ def LoadAudio(filePath, sample_rate=None, mono=True, offset=0.0, duration=None, 
     data, sample_rate = librosa.load(filePath, sr=sample_rate, mono=mono, offset=offset, duration=duration, res_type=res_type, dtype=dtype)
     return data, sample_rate
 
-def DisplayAudio_WavePlot(audio, sample_rate):
-    librosa.display.waveplot(audio, sr=sample_rate, max_points=50000.0, x_axis='time', offset=0.0, max_sr=1000)
+def SaveAudio(data, sample_rate, path):
+    soundfile.write(path, data, sample_rate)
+
+def DisplayAudio_WavePlot(audio, sample_rate, display=True):
+    fig = plt.figure()
+    librosa.display.waveshow(audio, sr=sample_rate, max_points=50000, x_axis='time', offset=0.0)
     plt.xlabel('Time')
     plt.ylabel('Amplitude')
     plt.title('Audio Wave')
-    plt.show()
+    if display:
+        plt.show()
+    return fig
 
 def GetFrequencyData(audio, sample_rate):
     frequencies, times, spectrogram = signal.spectrogram(audio, sample_rate)
     return frequencies, times, spectrogram
 
-def DisplaySpectrogram(frequencies, times, spectrogram):
-    # plt.imshow(spectrogram)
+def DisplaySpectrogram(frequencies, times, spectrogram, display=True):
+    fig = plt.figure()
     plt.pcolormesh(times, frequencies, spectrogram)
-
     plt.ylabel('Frequency [Hz]')
     plt.xlabel('Time [sec]')
     plt.title('Audio Spectrogram')
-    plt.show()
+    if display:
+        plt.show()
+    return fig
 
-def DisplayMaxFrequencyGraph(frequencies, times, spectrogram, plotSkip=1):
+def DisplayMaxFrequencyGraph(frequencies, times, spectrogram, plotSkip=1, display=True):
     maxFreqs = []
     for ti in tqdm(range(len(times))):
         maxFreqs.append(frequencies[np.argmax(spectrogram[:, ti])])
     maxFreqs = np.array(maxFreqs)
 
+    fig = plt.figure()
     plt.plot(list(range(len(times)))[::plotSkip], maxFreqs[::plotSkip])
     plt.scatter(list(range(len(times)))[::plotSkip], maxFreqs[::plotSkip])
-
-    plt.show()
+    plt.title('Max Frequency')
+    if display:
+        plt.show()
+    return fig
 
 # Driver Code
-# Params
-mainPath = 'TestAudio/'
-fileName = 'Iruvar.mp3'
-offset = 0.0#np.random.randint(1, 300) / 10
-duration = 1.0
+# # Params
+# mainPath = 'TestAudio/'
+# fileName = 'Iruvar.mp3'
+# offset = 0.0#np.random.randint(1, 300) / 10
+# duration = 1.0
 
-# Load Audio
-print("Loading", fileName, "from", str(offset), "-", str(offset + duration))
-audio, sample_rate = LoadAudio(mainPath + fileName, duration=duration, offset=offset)
-print("Audio Data Shape:", audio.shape)
+# # Load Audio
+# print("Loading", fileName, "from", str(offset), "-", str(offset + duration))
+# audio, sample_rate = LoadAudio(mainPath + fileName, duration=duration, offset=offset)
+# print("Audio Data Shape:", audio.shape)
 
-# Visualise
-# Amplitudes
-DisplayAudio_WavePlot(audio, sample_rate)
+# # Visualise
+# # Amplitudes
+# DisplayAudio_WavePlot(audio, sample_rate)
 
-# Frequencies
-frequencies, times, spectrogram = GetFrequencyData(audio, sample_rate)
-print("Freq Shape:", frequencies.shape)
-print("Time Shape:", times.shape)
-print("Spectrogram Shape:", spectrogram.shape)
+# # Frequencies
+# frequencies, times, spectrogram = GetFrequencyData(audio, sample_rate)
+# print("Freq Shape:", frequencies.shape)
+# print("Time Shape:", times.shape)
+# print("Spectrogram Shape:", spectrogram.shape)
 
-# print(spectrogram)
-# DisplaySpectrogram(frequencies, times, spectrogram)
-DisplayMaxFrequencyGraph(frequencies, times, spectrogram, plotSkip=1)
+# # print(spectrogram)
+# # DisplaySpectrogram(frequencies, times, spectrogram)
+# DisplayMaxFrequencyGraph(frequencies, times, spectrogram, plotSkip=1)
