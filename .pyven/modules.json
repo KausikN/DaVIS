@@ -11,8 +11,15 @@
             "subDir": "",
             "dependencies": [
                 "os.py",
+                "cv2.py",
+                "numpy.py",
                 "streamlit.py",
-                "json.py"
+                "matplotlib/pyplot.py",
+                "json.py",
+                "stack_effect.py",
+                "Image2DVis.py",
+                "Image3DVis.py",
+                "Audio2DVis.py"
             ]
         },
         "DaVIS.py": {
@@ -32,11 +39,11 @@
             "dependencies": [
                 "librosa.py",
                 "librosa/display.py",
-                "wave.py",
+                "soundfile.py",
                 "numpy.py",
                 "matplotlib/pyplot.py",
+                "matplotlib.py",
                 "signal.py",
-                "wavfile.py",
                 "tqdm.py"
             ]
         },
@@ -64,11 +71,10 @@
                 "cv2.py",
                 "numpy.py",
                 "matplotlib/pyplot.py",
-                "Axes3D.py",
-                "mplot3d.py",
+                "plotly/graph_objects.py",
+                "Image.py",
                 "tqdm.py",
-                "DepthLibrary.py",
-                "MeshLibrary.py"
+                "DepthLibrary.py"
             ]
         },
         "ImageVis/ImagePointEffect.py": {
@@ -257,224 +263,16 @@
                 "DepthDecoder.py"
             ]
         },
-        "os.py": {
-            "name": "os",
+        "Image2DVis.py": {
+            "name": "Image2DVis",
             "type": "missing",
             "link": "",
             "parentDir": "",
             "subDir": "",
             "dependencies": []
         },
-        "wave.py": {
-            "name": "wave",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "datasets.py": {
-            "name": "datasets",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "PIL/Image.py": {
-            "name": "Image",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "PIL",
-            "dependencies": []
-        },
-        "absolute_import.py": {
-            "name": "absolute_import",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "torch/nn/functional.py": {
-            "name": "functional",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "torch/nn",
-            "dependencies": []
-        },
-        "mplot3d.py": {
-            "name": "mplot3d",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "PillowWriter.py": {
-            "name": "PillowWriter",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "argparse.py": {
-            "name": "argparse",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "networks.py": {
-            "name": "networks",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "MeshLibrary.py": {
-            "name": "MeshLibrary",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "matplotlib.py": {
-            "name": "matplotlib",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "torch/nn.py": {
-            "name": "nn",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "torch",
-            "dependencies": []
-        },
-        "open3d.py": {
-            "name": "open3d",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "librosa.py": {
-            "name": "librosa",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "pyplot.py": {
-            "name": "pyplot",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "tqdm.py": {
-            "name": "tqdm",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "EffectFunctions.py": {
-            "name": "EffectFunctions",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "*.py": {
-            "name": "*",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "animation.py": {
-            "name": "animation",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "integrate.py": {
-            "name": "integrate",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "download_model_if_doesnt_exist.py": {
-            "name": "download_model_if_doesnt_exist",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "torch/utils/model_zoo.py": {
-            "name": "model_zoo",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "torch/utils",
-            "dependencies": []
-        },
-        "DepthLibrary.py": {
-            "name": "DepthLibrary",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "cv2.py": {
-            "name": "cv2",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "cnames.py": {
-            "name": "cnames",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "torchvision/models.py": {
-            "name": "models",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "torchvision",
-            "dependencies": []
-        },
-        "DepthDecoder.py": {
-            "name": "DepthDecoder",
+        "Image3DVis.py": {
+            "name": "Image3DVis",
             "type": "missing",
             "link": "",
             "parentDir": "",
@@ -489,64 +287,8 @@
             "subDir": "",
             "dependencies": []
         },
-        "librosa/display.py": {
-            "name": "display",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "librosa",
-            "dependencies": []
-        },
-        "signal.py": {
-            "name": "signal",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "streamlit.py": {
-            "name": "streamlit",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "matplotlib/pyplot.py": {
-            "name": "pyplot",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "matplotlib",
-            "dependencies": []
-        },
-        "OrderedDict.py": {
-            "name": "OrderedDict",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "ResnetEncoder.py": {
-            "name": "ResnetEncoder",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "sys.py": {
-            "name": "sys",
-            "type": "missing",
-            "link": "",
-            "parentDir": "",
-            "subDir": "",
-            "dependencies": []
-        },
-        "FuncAnimation.py": {
-            "name": "FuncAnimation",
+        "tqdm.py": {
+            "name": "tqdm",
             "type": "missing",
             "link": "",
             "parentDir": "",
@@ -555,70 +297,22 @@
         },
         "functools.py": {
             "name": "functools",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "torch.py": {
-            "name": "torch",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "math.py": {
-            "name": "math",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "print_function.py": {
-            "name": "print_function",
             "type": "missing",
             "link": "",
             "parentDir": "",
             "subDir": "",
             "dependencies": []
         },
-        "numpy.py": {
-            "name": "numpy",
+        "open3d.py": {
+            "name": "open3d",
             "type": "missing",
             "link": "",
             "parentDir": "",
             "subDir": "",
             "dependencies": []
         },
-        "Axes3D.py": {
-            "name": "Axes3D",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "matplotlib/cm.py": {
-            "name": "cm",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "matplotlib",
-            "dependencies": []
-        },
-        "transforms.py": {
-            "name": "transforms",
-            "type": "inbuilt",
-            "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
-            "subDir": "",
-            "dependencies": []
-        },
-        "glob.py": {
-            "name": "glob",
+        "download_model_if_doesnt_exist.py": {
+            "name": "download_model_if_doesnt_exist",
             "type": "missing",
             "link": "",
             "parentDir": "",
@@ -633,8 +327,144 @@
             "subDir": "",
             "dependencies": []
         },
-        "wavfile.py": {
-            "name": "wavfile",
+        "*.py": {
+            "name": "*",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "print_function.py": {
+            "name": "print_function",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "torch/utils/model_zoo.py": {
+            "name": "model_zoo",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "torch/utils",
+            "dependencies": []
+        },
+        "PillowWriter.py": {
+            "name": "PillowWriter",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "DepthDecoder.py": {
+            "name": "DepthDecoder",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "transforms.py": {
+            "name": "transforms",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "plotly/graph_objects.py": {
+            "name": "graph_objects",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "plotly",
+            "dependencies": []
+        },
+        "EffectFunctions.py": {
+            "name": "EffectFunctions",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "json.py": {
+            "name": "json",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "networks.py": {
+            "name": "networks",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "math.py": {
+            "name": "math",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "sys.py": {
+            "name": "sys",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "absolute_import.py": {
+            "name": "absolute_import",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "FuncAnimation.py": {
+            "name": "FuncAnimation",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "Axes3D.py": {
+            "name": "Axes3D",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "integrate.py": {
+            "name": "integrate",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "librosa.py": {
+            "name": "librosa",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "signal.py": {
+            "name": "signal",
             "type": "missing",
             "link": "",
             "parentDir": "",
@@ -649,20 +479,220 @@
             "subDir": "",
             "dependencies": []
         },
-        "json.py": {
-            "name": "json",
-            "type": "inbuilt",
+        "Plot3DVisualiseLibrary.py": {
+            "name": "Plot3DVisualiseLibrary",
+            "type": "missing",
             "link": "",
-            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "parentDir": "",
             "subDir": "",
             "dependencies": []
         },
-        "Plot3DVisualiseLibrary.py": {
-            "name": "Plot3DVisualiseLibrary",
+        "matplotlib/cm.py": {
+            "name": "cm",
             "type": "inbuilt",
             "link": "",
             "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "matplotlib",
+            "dependencies": []
+        },
+        "glob.py": {
+            "name": "glob",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
             "subDir": "",
+            "dependencies": []
+        },
+        "DepthLibrary.py": {
+            "name": "DepthLibrary",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "torch/nn/functional.py": {
+            "name": "functional",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "torch/nn",
+            "dependencies": []
+        },
+        "cnames.py": {
+            "name": "cnames",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "os.py": {
+            "name": "os",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "stack_effect.py": {
+            "name": "stack_effect",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "matplotlib.py": {
+            "name": "matplotlib",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "animation.py": {
+            "name": "animation",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "PIL/Image.py": {
+            "name": "Image",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "PIL",
+            "dependencies": []
+        },
+        "soundfile.py": {
+            "name": "soundfile",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "streamlit.py": {
+            "name": "streamlit",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "torch.py": {
+            "name": "torch",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "ResnetEncoder.py": {
+            "name": "ResnetEncoder",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "Audio2DVis.py": {
+            "name": "Audio2DVis",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "datasets.py": {
+            "name": "datasets",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "OrderedDict.py": {
+            "name": "OrderedDict",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "numpy.py": {
+            "name": "numpy",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "argparse.py": {
+            "name": "argparse",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "torchvision/models.py": {
+            "name": "models",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "torchvision",
+            "dependencies": []
+        },
+        "librosa/display.py": {
+            "name": "display",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "librosa",
+            "dependencies": []
+        },
+        "Image.py": {
+            "name": "Image",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "pyplot.py": {
+            "name": "pyplot",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "torch/nn.py": {
+            "name": "nn",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "torch",
+            "dependencies": []
+        },
+        "cv2.py": {
+            "name": "cv2",
+            "type": "missing",
+            "link": "",
+            "parentDir": "",
+            "subDir": "",
+            "dependencies": []
+        },
+        "matplotlib/pyplot.py": {
+            "name": "pyplot",
+            "type": "inbuilt",
+            "link": "",
+            "parentDir": "E:/Github Codes and Projects/Projects/DaVIS",
+            "subDir": "matplotlib",
             "dependencies": []
         }
     }
