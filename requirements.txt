@@ -1,6 +1,6 @@
 librosa==0.9.1
 matplotlib==3.4.3
-numpy==1.19.5
+numpy==1.21
 open3d==0.15.2
 open3d_python==0.3.0.0
 opencv_python==4.5.4.58
