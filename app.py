@@ -66,7 +66,36 @@ def SaveCache():
     json.dump(CACHE, open(CACHE_PATH, 'w'), indent=4)
 
 # Main Functions
+@st.cache()
+def ImageVis_2D(USERINPUT_Image):
+    # RGB Gray
+    I_r, I_g, I_b = Image2DVis.ImageVis_RGBChannels(USERINPUT_Image, display=False)
+    I_gray = Image2DVis.ImageVis_Greyscale(USERINPUT_Image, display=False)
+    # Dominant Lowest Channels
+    I_dom = Image2DVis.ImageVis_DominantChannel(USERINPUT_Image, display=False)
+    I_low = Image2DVis.ImageVis_LowestChannel(USERINPUT_Image, display=False)
+    # Histogram Enhance
+    histData = Image2DVis.ImageHistogram_2D(USERINPUT_Image, bins=list(range(0, 256)), display=False)
+    I_histenhanced = Image2DVis.ImageHistogram_Enhance(USERINPUT_Image, histData, selectRange=[0, 255], display=False)
+    return I_r, I_g, I_b, I_gray, I_dom, I_low, histData, I_histenhanced
 
+@st.cache()
+def ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, options, DepthScale, DepthLimits):
+    I = Image3DVis.ResizeImage(USERINPUT_Image, imgSize, keepAspectRatio)
+    Depths = Image3DVis.CalculateDepth(I, DepthFunc, options)
+    Depths = Depths * DepthScale
+    I_depth = np.array(Depths*255, dtype=np.uint8)
+    modelFig = Image3DVis.PlotImage3D_Plane(cv2.cvtColor(I, cv2.COLOR_RGB2BGR), Depths, DepthLimits, display=False)
+    return I, Depths, I_depth, modelFig
+
+def AudioVis_2D(AUDIO, SAMPLE_RATE):
+    fig_WAVE = Audio2DVis.DisplayAudio_WavePlot(AUDIO, SAMPLE_RATE, display=False)
+    FREQUENCIES, TIMES, SPECTROGRAM = Audio2DVis.GetFrequencyData(AUDIO, SAMPLE_RATE)
+    spectrogram_min, spectrogram_max = SPECTROGRAM.min(), SPECTROGRAM.max()
+    SPECTROGRAM_norm = (SPECTROGRAM - spectrogram_min) / (spectrogram_max - spectrogram_min)
+    SPECTROGRAM_norm = np.array(SPECTROGRAM_norm * 255, dtype=np.uint8)
+    fig_MAXFREQ = Audio2DVis.DisplayMaxFrequencyGraph(FREQUENCIES, TIMES, SPECTROGRAM, plotSkip=1, display=False)
+    return fig_WAVE, fig_MAXFREQ, SPECTROGRAM_norm
 
 # UI Functions
 def UI_LoadImage():
@@ -106,19 +135,14 @@ def image_2d_vis():
     USERINPUT_Image = UI_LoadImage()
 
     # Process Inputs
-    # RGB Gray
-    I_r, I_g, I_b = Image2DVis.ImageVis_RGBChannels(USERINPUT_Image, display=False)
-    I_gray = Image2DVis.ImageVis_Greyscale(USERINPUT_Image, display=False)
-    # Dominant Lowest Channels
-    I_dom = Image2DVis.ImageVis_DominantChannel(USERINPUT_Image, display=False)
-    I_low = Image2DVis.ImageVis_LowestChannel(USERINPUT_Image, display=False)
-    # Histogram Enhance
-    histData = Image2DVis.ImageHistogram_2D(USERINPUT_Image, bins=list(range(0, 256)), display=False)
-    I_histenhanced = Image2DVis.ImageHistogram_Enhance(USERINPUT_Image, histData, selectRange=[0, 255], display=False)
+    I_r, I_g, I_b, I_gray, I_dom, I_low, histData, I_histenhanced = ImageVis_2D(USERINPUT_Image)
 
     # Display Outputs
+    st.markdown("## Image")
     # Original
     st.image(USERINPUT_Image, caption="Original", use_column_width=True)
+
+    st.markdown("## Visualisations")
     # RGB Gray
     col1, col2, col3 = st.columns(3)
     col1.image(I_r, caption="Red Channel", use_column_width=True)
@@ -149,28 +173,28 @@ def image_3d_vis():
     # Load Inputs
     USERINPUT_Image = UI_LoadImage()
     USERINPUT_DepthFuncName = st.selectbox("Depth Detector", list(Image3DVis.DepthLibrary.DEPTH_FUNCS.keys()))
+    USERINPUT_DepthScale = st.number_input("Depth Scale", 0.0, 2.0, 0.5, 0.1)
 
     # Process Inputs
     imgSize = (250, 250)
     keepAspectRatio = True
-    I = Image3DVis.ResizeImage(USERINPUT_Image, imgSize, keepAspectRatio)
-
+    
     DepthFunc = Image3DVis.DepthLibrary.DEPTH_FUNCS[USERINPUT_DepthFuncName]
     options = {}
     options['mods'] = ['Normalise']#, 'Reverse']
     options['NormaliseRange'] = [0, 1]
     options['DepthRange'] = [0, 255]
-
-    DepthScale = 1
+    DepthScale = USERINPUT_DepthScale
     DepthLimits = None
-    Depths = Image3DVis.CalculateDepth(I, DepthFunc, options)
-    Depths = Depths * DepthScale
-    I_depth = np.array(Depths*255, dtype=np.uint8)
-    modelFig = Image3DVis.PlotImage3D_Plane(cv2.cvtColor(I, cv2.COLOR_RGB2BGR), Depths, DepthLimits, display=False)
+
+    I, Depths, I_depth, modelFig = ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, options, DepthScale, DepthLimits)
     
     # Display Outputs
+    st.markdown("## Image")
     # Original
     st.image(USERINPUT_Image, caption="Original", use_column_width=True)
+
+    st.markdown("## Visualisations")
     # Depth Map
     st.image(I_depth, caption="Depth Map", use_column_width=True)
     # 3D Model
@@ -186,15 +210,12 @@ def audio_2d_vis():
     AUDIO, SAMPLE_RATE = UI_LoadAudio()
 
     # Process Inputs
-    fig_WAVE = Audio2DVis.DisplayAudio_WavePlot(AUDIO, SAMPLE_RATE, display=False)
-    FREQUENCIES, TIMES, SPECTROGRAM = Audio2DVis.GetFrequencyData(AUDIO, SAMPLE_RATE)
-    spectrogram_min, spectrogram_max = SPECTROGRAM.min(), SPECTROGRAM.max()
-    SPECTROGRAM_norm = (SPECTROGRAM - spectrogram_min) / (spectrogram_max - spectrogram_min)
-    SPECTROGRAM_norm = np.array(SPECTROGRAM_norm * 255, dtype=np.uint8)
-    fig_MAXFREQ = Audio2DVis.DisplayMaxFrequencyGraph(FREQUENCIES, TIMES, SPECTROGRAM, plotSkip=1, display=False)
+    fig_WAVE, fig_MAXFREQ, SPECTROGRAM_norm = AudioVis_2D(AUDIO, SAMPLE_RATE)
 
     # Display Outputs
+    st.markdown("## Audio")
     st.audio(open(SAVE_CUTAUDIO_PATH, "rb").read(), format="audio/wav", start_time=0)
+    st.markdown("## Visualisations")
     st.plotly_chart(fig_WAVE, use_container_width=True)
     st.image(SPECTROGRAM_norm, caption="Spectrogram", use_column_width=True)
     st.plotly_chart(fig_MAXFREQ, use_container_width=True)

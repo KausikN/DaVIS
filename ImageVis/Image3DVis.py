@@ -267,7 +267,11 @@ def PlotImage3D_Plane(I, Depths, DepthLimits=None, display=True):
     fig = graph.Figure(data=[graph.Surface(
         z=Z, surfacecolor=I_8bit, cmin=0, cmax=255, colorscale=colorscale, showscale=False
     )])
-    fig.update_layout(title='', autosize=True)
+    fig.update_layout(
+        title='',
+        autosize=True,
+        scene=dict(zaxis=dict(range=[0.0, 1.0]))
+    )
 
     if display:
         plt.show()

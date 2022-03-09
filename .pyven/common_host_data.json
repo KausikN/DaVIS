@@ -1,3 +1,11 @@
 {
-    "files_to_download": []
+    "files_to_download": [
+        "StreamLitGUI/",
+        "app.py",
+        "DaVIS.py",
+        "AudioVis/",
+        "ImageVis/",
+        "TestAudio/DN.mp3",
+        "TestImgs/Arch.jpeg"
+    ]
 }
