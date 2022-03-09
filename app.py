@@ -3,9 +3,9 @@ Stream lit GUI for hosting DaVIS
 """
 
 # Imports
-from opcode import stack_effect
 import os
 import cv2
+import functools
 import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -13,6 +13,7 @@ import json
 
 from ImageVis import Image2DVis
 from ImageVis import Image3DVis
+from ImageVis import ImagePointEffect
 from AudioVis import Audio2DVis
 
 # Main Vars
@@ -50,6 +51,7 @@ CACHE_PATH = "StreamLitGUI/CacheData/Cache.json"
 DEFAULT_IMAGE_PATH = "TestImgs/Arch.jpeg"
 DEFAULT_AUDIO_PATH = "TestAudio/DN.mp3"
 
+SAVE_POINTGIF_PATH = "StreamLitGUI/CacheData/PointGif.gif"
 SAVE_AUDIO_PATH = "StreamLitGUI/CacheData/CacheAudio.mp3"
 SAVE_CUTAUDIO_PATH = "StreamLitGUI/CacheData/CacheCutAudio.wav"
 
@@ -80,9 +82,9 @@ def ImageVis_2D(USERINPUT_Image):
     return I_r, I_g, I_b, I_gray, I_dom, I_low, histData, I_histenhanced
 
 @st.cache()
-def ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, options, DepthScale, DepthLimits):
+def ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, DepthOptions, DepthScale, DepthLimits):
     I = Image3DVis.ResizeImage(USERINPUT_Image, imgSize, keepAspectRatio)
-    Depths = Image3DVis.CalculateDepth(I, DepthFunc, options)
+    Depths = Image3DVis.CalculateDepth(I, DepthFunc, DepthOptions)
     Depths = Depths * DepthScale
     I_depth = np.array(Depths*255, dtype=np.uint8)
     modelFig = Image3DVis.PlotImage3D_Plane(cv2.cvtColor(I, cv2.COLOR_RGB2BGR), Depths, DepthLimits, display=False)
@@ -96,6 +98,54 @@ def AudioVis_2D(AUDIO, SAMPLE_RATE):
     SPECTROGRAM_norm = np.array(SPECTROGRAM_norm * 255, dtype=np.uint8)
     fig_MAXFREQ = Audio2DVis.DisplayMaxFrequencyGraph(FREQUENCIES, TIMES, SPECTROGRAM, plotSkip=1, display=False)
     return fig_WAVE, fig_MAXFREQ, SPECTROGRAM_norm
+
+def ImagePoint_Effect(USERINPUT_Image, USERINPUT_EffectName, timeInterval, frames):
+    imgSize = (30, 30)
+    keepAspectRatio = False
+    I = Image3DVis.ResizeImage(USERINPUT_Image, imgSize, keepAspectRatio)
+    DepthOptions = {
+        "mods": ['Normalise'],#, 'Reverse']
+        "NormaliseRange": [0, 1],
+        "DepthRange": [0, 255]
+    }
+    DepthFunc = functools.partial(ImagePointEffect.DepthFunc_GrayScaleDepth, options=DepthOptions)
+
+    EffectOptions = {
+        # Upward Spiral
+        "ls": 50,
+        "r": 15,
+        "rs": 1,
+        # Translate
+        "speed": [-100, 0, 0]
+    }
+    EffectFunc = functools.partial(ImagePointEffect.EffectFunctions.EFFECT_FUNCS[USERINPUT_EffectName], **EffectOptions)
+    
+    ImagePointLimits = [(-15, 15), (-15, 15), (-15, 15)]
+    plotLims = [(-30, 30), (-30, 30), (0, 55)]
+    speedUpFactor = 1
+    frame_interval = 30
+    rotationSpeed = 0
+    altDegrees = 30
+
+    plotData = False
+    saveData = {
+        "save": True,
+        "path": SAVE_POINTGIF_PATH,
+        "fps": 30,
+        "figSize": [320, 240]
+    }
+    saveData["figSize"] = (saveData["figSize"][0]/100, saveData["figSize"][1]/100) # Change FigSize to inches (dpi = 100)
+    ImagePointEffect.P3L.speedUpFactor = speedUpFactor
+    ImagePointEffect.P3L.rotationSpeed = rotationSpeed
+    ImagePointEffect.P3L.altDegrees = altDegrees
+
+    Points, Colors = ImagePointEffect.Image2PointsColors(I, DepthFunc, ImagePointLimits)
+    ImagePointEffect.P3L.AnimateEffect_Generic(
+        EffectFunc, Points, Colors, timeInterval=timeInterval, plotLims=plotLims, frames=frames, frame_interval=frame_interval, 
+        plotData=plotData, saveData=saveData,
+        progressObj=st.progress(0.0)
+    )
+
 
 # UI Functions
 def UI_LoadImage():
@@ -135,34 +185,35 @@ def image_2d_vis():
     USERINPUT_Image = UI_LoadImage()
 
     # Process Inputs
-    I_r, I_g, I_b, I_gray, I_dom, I_low, histData, I_histenhanced = ImageVis_2D(USERINPUT_Image)
+    if st.button("Visualise"):
+        I_r, I_g, I_b, I_gray, I_dom, I_low, histData, I_histenhanced = ImageVis_2D(USERINPUT_Image)
 
-    # Display Outputs
-    st.markdown("## Image")
-    # Original
-    st.image(USERINPUT_Image, caption="Original", use_column_width=True)
+        # Display Outputs
+        st.markdown("## Image")
+        # Original
+        st.image(USERINPUT_Image, caption="Original", use_column_width=True)
 
-    st.markdown("## Visualisations")
-    # RGB Gray
-    col1, col2, col3 = st.columns(3)
-    col1.image(I_r, caption="Red Channel", use_column_width=True)
-    col2.image(I_g, caption="Green Channel", use_column_width=True)
-    col3.image(I_b, caption="Blue Channel", use_column_width=True)
-    st.image(I_gray, caption="Grayscale", use_column_width=True)
-    # Dominant Lowest Channels
-    col1, col2 = st.columns(2)
-    col1.image(I_dom, caption="Dominant Channel", use_column_width=True)
-    col2.image(I_low, caption="Lowest Channel", use_column_width=True)
-    # Histogram Enhance
-    histVals = []
-    bins = list(range(0, 256))
-    for b in bins:
-        histVals.append(histData[str(b)])
-    histFig = plt.figure()
-    plt.title("Image Histogram")
-    plt.bar(bins, histVals, width=1)
-    st.plotly_chart(histFig, use_container_width=True)
-    st.image(I_histenhanced, caption="Histogram Enhanced", use_column_width=True)
+        st.markdown("## Visualisations")
+        # RGB Gray
+        col1, col2, col3 = st.columns(3)
+        col1.image(I_r, caption="Red Channel", use_column_width=True)
+        col2.image(I_g, caption="Green Channel", use_column_width=True)
+        col3.image(I_b, caption="Blue Channel", use_column_width=True)
+        st.image(I_gray, caption="Grayscale", use_column_width=True)
+        # Dominant Lowest Channels
+        col1, col2 = st.columns(2)
+        col1.image(I_dom, caption="Dominant Channel", use_column_width=True)
+        col2.image(I_low, caption="Lowest Channel", use_column_width=True)
+        # Histogram Enhance
+        histVals = []
+        bins = list(range(0, 256))
+        for b in bins:
+            histVals.append(histData[str(b)])
+        histFig = plt.figure()
+        plt.title("Image Histogram")
+        plt.bar(bins, histVals, width=1)
+        st.plotly_chart(histFig, use_container_width=True)
+        st.image(I_histenhanced, caption="Histogram Enhanced", use_column_width=True)
 
 def image_3d_vis():
     # Title
@@ -176,29 +227,31 @@ def image_3d_vis():
     USERINPUT_DepthScale = st.number_input("Depth Scale", 0.0, 2.0, 0.5, 0.1)
 
     # Process Inputs
-    imgSize = (250, 250)
-    keepAspectRatio = True
-    
-    DepthFunc = Image3DVis.DepthLibrary.DEPTH_FUNCS[USERINPUT_DepthFuncName]
-    options = {}
-    options['mods'] = ['Normalise']#, 'Reverse']
-    options['NormaliseRange'] = [0, 1]
-    options['DepthRange'] = [0, 255]
-    DepthScale = USERINPUT_DepthScale
-    DepthLimits = None
+    if st.button("Visualise"):
+        imgSize = (250, 250)
+        keepAspectRatio = True
+        
+        DepthFunc = Image3DVis.DepthLibrary.DEPTH_FUNCS[USERINPUT_DepthFuncName]
+        DepthOptions = {
+            'mods': ['Normalise'],#, 'Reverse']
+            'NormaliseRange': [0, 1],
+            'DepthRange': [0, 255]
+        }
+        DepthScale = USERINPUT_DepthScale
+        DepthLimits = None
 
-    I, Depths, I_depth, modelFig = ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, options, DepthScale, DepthLimits)
-    
-    # Display Outputs
-    st.markdown("## Image")
-    # Original
-    st.image(USERINPUT_Image, caption="Original", use_column_width=True)
+        I, Depths, I_depth, modelFig = ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, DepthOptions, DepthScale, DepthLimits)
+        
+        # Display Outputs
+        st.markdown("## Image")
+        # Original
+        st.image(USERINPUT_Image, caption="Original", use_column_width=True)
 
-    st.markdown("## Visualisations")
-    # Depth Map
-    st.image(I_depth, caption="Depth Map", use_column_width=True)
-    # 3D Model
-    st.plotly_chart(modelFig, use_container_width=True)
+        st.markdown("## Visualisations")
+        # Depth Map
+        st.image(I_depth, caption="Depth Map", use_column_width=True)
+        # 3D Model
+        st.plotly_chart(modelFig, use_container_width=True)
 
 def audio_2d_vis():
     # Title
@@ -210,15 +263,44 @@ def audio_2d_vis():
     AUDIO, SAMPLE_RATE = UI_LoadAudio()
 
     # Process Inputs
-    fig_WAVE, fig_MAXFREQ, SPECTROGRAM_norm = AudioVis_2D(AUDIO, SAMPLE_RATE)
+    if st.button("Visualise"):
+        fig_WAVE, fig_MAXFREQ, SPECTROGRAM_norm = AudioVis_2D(AUDIO, SAMPLE_RATE)
 
-    # Display Outputs
-    st.markdown("## Audio")
-    st.audio(open(SAVE_CUTAUDIO_PATH, "rb").read(), format="audio/wav", start_time=0)
-    st.markdown("## Visualisations")
-    st.plotly_chart(fig_WAVE, use_container_width=True)
-    st.image(SPECTROGRAM_norm, caption="Spectrogram", use_column_width=True)
-    st.plotly_chart(fig_MAXFREQ, use_container_width=True)
+        # Display Outputs
+        st.markdown("## Audio")
+        st.audio(open(SAVE_CUTAUDIO_PATH, "rb").read(), format="audio/wav", start_time=0)
+        st.markdown("## Visualisations")
+        st.plotly_chart(fig_WAVE, use_container_width=True)
+        st.image(SPECTROGRAM_norm, caption="Spectrogram", use_column_width=True)
+        st.plotly_chart(fig_MAXFREQ, use_container_width=True)
+
+def image_point_vis():
+    # Title
+    st.header("Image Point Vis")
+
+    # Prereq Loaders
+
+    # Load Inputs
+    USERINPUT_Image = UI_LoadImage()
+    USERINPUT_EffectName = st.selectbox("Effect", list(ImagePointEffect.EffectFunctions.EFFECT_FUNCS.keys()))
+    col1, col2, col3 = st.columns(3)
+    USERINPUT_TimeIntervalStart = col1.number_input("Time Interval Start", 0.0, 100.0, 0.0, 0.1)
+    USERINPUT_TimeIntervalEnd = col2.number_input("Time Interval End", 0.1, 100.0, 1.0, 0.1)
+    USERINPUT_frames = col3.number_input("Num Frames", 1, 90, 30, 1)
+
+    # Process Inputs
+    if st.button("Visualise"):
+        timeInterval = [USERINPUT_TimeIntervalStart, USERINPUT_TimeIntervalEnd]
+        ImagePoint_Effect(USERINPUT_Image, USERINPUT_EffectName, timeInterval, USERINPUT_frames)
+
+        # Display Outputs
+        st.markdown("## Image")
+        # Original
+        st.image(USERINPUT_Image, caption="Original", use_column_width=True)
+
+        st.markdown("## Visualisations")
+        # Point Effect
+        st.image(SAVE_POINTGIF_PATH, caption="Point Effect", use_column_width=True)
     
 
 #############################################################################################################################

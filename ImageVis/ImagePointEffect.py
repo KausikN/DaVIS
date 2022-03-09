@@ -10,8 +10,8 @@ import functools
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Libraries import Plot3DVisualiseLibrary as P3L
-from Libraries import EffectFunctions
+from .Libraries import Plot3DVisualiseLibrary as P3L
+from .Libraries import EffectFunctions
 
 # Main Functions
 # Depth Functions
@@ -81,48 +81,48 @@ def Image2PointsColors(I, DepthFunc, ImagePointLimits):
     return points, colors
 
 # Driver Code
-# Params
-imgPath = 'TestImgs/A.jpeg'
-imgSize = (30, 30)
-keepAspectRatio = False
-DepthFunc = DepthFunc_GrayScaleDepth
-DepthOptions = {
-    'mods': ['Normalise'],#, 'Reverse']
-    'NormaliseRange': [0, 0],
-    'DepthRange': [0, 255]
-    }
+# # Params
+# imgPath = 'TestImgs/A.jpeg'
+# imgSize = (30, 30)
+# keepAspectRatio = False
+# DepthFunc = DepthFunc_GrayScaleDepth
+# DepthOptions = {
+#     'mods': ['Normalise'],#, 'Reverse']
+#     'NormaliseRange': [0, 0],
+#     'DepthRange': [0, 255]
+#     }
 
-EffectFunc = functools.partial(EffectFunctions.Effect_ChaosAttractor, Func=EffectFunctions.Deriv_Lorenz)
-saveName = "IPEffect_Test"
-timeInterval = [0, 4]
-ImagePointLimits = [(-15, 15), (-15, 15), (-15, 15)]
-plotLims = [(-30, 30), (-30, 30), (0, 55)]
-speedUpFactor = 2
+# EffectFunc = functools.partial(EffectFunctions.Effect_ChaosAttractor, Func=EffectFunctions.Deriv_Lorenz)
+# saveName = "IPEffect_Test"
+# timeInterval = [0, 4]
+# ImagePointLimits = [(-15, 15), (-15, 15), (-15, 15)]
+# plotLims = [(-30, 30), (-30, 30), (0, 55)]
+# speedUpFactor = 2
 
-frames = 250
-frame_interval = 30
-rotationSpeed = 3
-altDegrees = 30
+# frames = 250
+# frame_interval = 30
+# rotationSpeed = 3
+# altDegrees = 30
 
-plotData = False
-saveData = {
-    "save": True,
-    "path":"ImageVis/GeneratedVisualisations/" + os.path.splitext(os.path.basename(imgPath))[0] + "_" + saveName + ".gif",
-    "fps": 30,
-    "figSize": [320, 240]
-    }
-# Params
+# plotData = False
+# saveData = {
+#     "save": True,
+#     "path":"ImageVis/GeneratedVisualisations/" + os.path.splitext(os.path.basename(imgPath))[0] + "_" + saveName + ".gif",
+#     "fps": 30,
+#     "figSize": [320, 240]
+#     }
+# # Params
 
-# RunCode
-DepthFunc = functools.partial(DepthFunc, options=DepthOptions)
-saveData["figSize"] = (saveData["figSize"][0]/100, saveData["figSize"][1]/100) # Change FigSize to inches (dpi = 100)
-P3L.speedUpFactor = speedUpFactor
-P3L.rotationSpeed = rotationSpeed
-P3L.altDegrees = altDegrees
+# # RunCode
+# DepthFunc = functools.partial(DepthFunc, options=DepthOptions)
+# saveData["figSize"] = (saveData["figSize"][0]/100, saveData["figSize"][1]/100) # Change FigSize to inches (dpi = 100)
+# P3L.speedUpFactor = speedUpFactor
+# P3L.rotationSpeed = rotationSpeed
+# P3L.altDegrees = altDegrees
 
-I = ReadImage(imgPath, imgSize=imgSize, keepAspectRatio=keepAspectRatio)
-DisplayImage(I)
+# I = ReadImage(imgPath, imgSize=imgSize, keepAspectRatio=keepAspectRatio)
+# DisplayImage(I)
 
-Points, Colors = Image2PointsColors(I, DepthFunc, ImagePointLimits)
+# Points, Colors = Image2PointsColors(I, DepthFunc, ImagePointLimits)
 
-P3L.AnimateEffect_Generic(EffectFunc, Points, Colors, timeInterval=timeInterval, plotLims=plotLims, frames=frames, frame_interval=frame_interval, plotData=plotData, saveData=saveData)
+# P3L.AnimateEffect_Generic(EffectFunc, Points, Colors, timeInterval=timeInterval, plotLims=plotLims, frames=frames, frame_interval=frame_interval, plotData=plotData, saveData=saveData)

@@ -56,16 +56,16 @@ def InitAnimation():
     global Lines, Pts, x_t, fig, ax
     for line, pt in zip(Lines, Pts):
         line.set_data([], [])
-        line.set_3d_properties([])
+        # line.set_3d_properties(np.array([]))
 
         pt.set_data([], [])
-        pt.set_3d_properties([])
+        # pt.set_3d_properties([])
     return Lines + Pts
 
 # animation function.  This will be called sequentially with the frame number
-def UpdateAnimation(i):
+def UpdateAnimation(i, progressObj=None, frames=1):
     global Lines, Pts, x_t, fig, ax, speedUpFactor, rotationSpeed
-    print(i, "done", end='\r')
+    
     # we'll step two time-steps per frame.  This leads to nice results.
     i = (speedUpFactor * i) % x_t.shape[1]
 
@@ -80,9 +80,12 @@ def UpdateAnimation(i):
     ax.view_init(altDegrees, 0.3 * i*rotationSpeed)
     fig.canvas.draw()
 
+    print(i, "done", end='\r')
+    if progressObj is not None: progressObj.progress((i+1)/frames)
+
     return Lines + Pts
 
-def AnimateEffect(EffectFunc, N_trajectories, GeneratorFunc, timeInterval=[0, 4], plotLims=[(-25, 25), (-35, 35), (5, 55)], frames=500, frame_interval=30, plotData=True, saveData={"save": False}):
+def AnimateEffect(EffectFunc, N_trajectories, GeneratorFunc, timeInterval=[0, 4], plotLims=[(-25, 25), (-35, 35), (5, 55)], frames=500, frame_interval=30, plotData=True, saveData={"save": False}, progressObj=None):
     global Lines, Pts, x_t, fig, ax, speedUpFactor
     # Choose random starting points, uniformly distributed from -15 to 15
     startPoints = GeneratorFunc(N_trajectories)
@@ -114,7 +117,7 @@ def AnimateEffect(EffectFunc, N_trajectories, GeneratorFunc, timeInterval=[0, 4]
 
     # Animate
     InitAnim = InitAnimation
-    UpdateAnim = UpdateAnimation
+    UpdateAnim = functools.partial(UpdateAnimation, progressObj=progressObj, frames=frames)
     anim = animation.FuncAnimation(fig, UpdateAnim, init_func=InitAnim, frames=frames, interval=frame_interval, blit=True)
 
     # Save as mp4. This requires mplayer or ffmpeg to be installed
@@ -129,7 +132,7 @@ def AnimateEffect(EffectFunc, N_trajectories, GeneratorFunc, timeInterval=[0, 4]
         plt.show()
 
 
-def AnimateEffect_Generic(EffectFunc, Points, Colors, timeInterval=[0, 4], plotLims=[(-25, 25), (-35, 35), (5, 55)], frames=500, frame_interval=30, plotData=True, saveData={"save": False}):
+def AnimateEffect_Generic(EffectFunc, Points, Colors, timeInterval=[0, 4], plotLims=[(-25, 25), (-35, 35), (5, 55)], frames=500, frame_interval=30, plotData=True, saveData={"save": False}, progressObj=None):
     global Lines, Pts, x_t, fig, ax, speedUpFactor
     # Choose random starting points, uniformly distributed from -15 to 15
     startPoints = np.array(Points)
@@ -161,7 +164,7 @@ def AnimateEffect_Generic(EffectFunc, Points, Colors, timeInterval=[0, 4], plotL
 
     # Animate
     InitAnim = InitAnimation
-    UpdateAnim = UpdateAnimation
+    UpdateAnim = functools.partial(UpdateAnimation, progressObj=progressObj, frames=frames)
     anim = animation.FuncAnimation(fig, UpdateAnim, init_func=InitAnim, frames=frames, interval=frame_interval, blit=True)
 
     # Save as mp4. This requires mplayer or ffmpeg to be installed

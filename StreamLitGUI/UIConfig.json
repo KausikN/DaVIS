@@ -6,5 +6,5 @@
 
     "PROJECT_README": "README.md",
 
-    "PROJECT_MODES": ["Image 2D Vis", "Image 3D Vis", "Audio 2D Vis"]
+    "PROJECT_MODES": ["Image 2D Vis", "Image 3D Vis", "Image Point Vis", "Audio 2D Vis"]
 }
