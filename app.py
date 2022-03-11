@@ -48,8 +48,9 @@ def HomePage():
 #############################################################################################################################
 # Repo Based Vars
 CACHE_PATH = "StreamLitGUI/CacheData/Cache.json"
-DEFAULT_IMAGE_PATH = "TestImgs/Arch.jpeg"
-DEFAULT_AUDIO_PATH = "TestAudio/DN.mp3"
+DEFAULT_IMAGE_PATH = "TestData/TestImgs/Arch.jpeg"
+DEFAULT_AUDIO_PATH = "TestData/TestAudio/DN.mp3"
+DEFAULT_VIDEO_PATH = "TestData/TestVideos/Test_Animation.wmv"
 
 SAVE_POINTGIF_PATH = "StreamLitGUI/CacheData/PointGif.gif"
 SAVE_AUDIO_PATH = "StreamLitGUI/CacheData/CacheAudio.mp3"
@@ -57,6 +58,7 @@ SAVE_CUTAUDIO_PATH = "StreamLitGUI/CacheData/CacheCutAudio.wav"
 
 # Util Vars
 CACHE = {}
+INPUTREADERS_VIDEO = Image3DVis.INPUTREADERS_VIDEO
 
 # Util Functions
 def LoadCache():
@@ -146,6 +148,27 @@ def ImagePoint_Effect(USERINPUT_Image, USERINPUT_EffectName, timeInterval, frame
         progressObj=st.progress(0.0)
     )
 
+def VideoVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, DepthOptions, DepthScale, DepthLimits, 
+                Widgets, applyTexture=False, fig=None):
+    I = Image3DVis.ResizeImage(USERINPUT_Image, imgSize, keepAspectRatio)
+    Depths = Image3DVis.CalculateDepth(I, DepthFunc, DepthOptions)
+    Depths = Depths * DepthScale
+    if applyTexture:
+        texture = cv2.cvtColor(I, cv2.COLOR_RGB2BGR)
+    else:
+        texture = np.ones((I.shape[0], I.shape[1], 3), dtype=np.uint8) * 128
+    modelFig = Image3DVis.PlotImage3D_Plane(texture, Depths, DepthLimits, fig=fig, display=False)
+    # Display Outputs
+    # Original
+    Widgets["input"].image(USERINPUT_Image, caption="Original", use_column_width=True)
+    # 3D Model
+    if fig is None:
+        Widgets["output"] = Widgets["output"].plotly_chart(modelFig, use_container_width=True)
+    else:
+        Widgets["output"].plotly_chart(modelFig, use_container_width=True)
+    
+
+    return modelFig
 
 # UI Functions
 def UI_LoadImage():
@@ -173,6 +196,28 @@ def UI_LoadAudio():
     Audio2DVis.SaveAudio(AUDIO, SAMPLE_RATE, SAVE_CUTAUDIO_PATH)
 
     return AUDIO, SAMPLE_RATE
+
+def UI_LoadVideo():
+    USERINPUT_VideoInputChoice = st.selectbox("Select Video Input Source", list(INPUTREADERS_VIDEO.keys()))
+    USERINPUT_VideoReader = INPUTREADERS_VIDEO[USERINPUT_VideoInputChoice]
+
+    # Upload Video File
+    if USERINPUT_VideoInputChoice == "Upload Video File":
+        USERINPUT_VideoPath = st.file_uploader("Upload Video", ['avi', 'mp4', 'wmv'])
+        if USERINPUT_VideoPath is None:
+            USERINPUT_VideoPath = DEFAULT_VIDEO_PATH
+        USERINPUT_VideoReader = functools.partial(USERINPUT_VideoReader, USERINPUT_VideoPath)
+    # Video URL
+    elif USERINPUT_VideoInputChoice == "Video URL":
+        USERINPUT_VideoURL = st.text_input("Video URL", "http://192.168.0.102:8080/shot.jpg")
+        USERINPUT_VideoReader = functools.partial(USERINPUT_VideoReader, USERINPUT_VideoURL)
+    # Webcam
+    else:
+        pass
+
+    USERINPUT_Video = USERINPUT_VideoReader()
+    
+    return USERINPUT_Video
 
 # Repo Based Functions
 def image_2d_vis():
@@ -299,6 +344,44 @@ def image_point_vis():
         st.markdown("## Visualisations")
         # Point Effect
         st.image(SAVE_POINTGIF_PATH, caption="Point Effect", use_column_width=True)
+
+def video_3d_vis():
+    # Title
+    st.header("Video 3D Vis")
+
+    # Prereq Loaders
+
+    # Load Inputs
+    USERINPUT_Video = UI_LoadVideo()
+    USERINPUT_DepthFuncName = st.selectbox("Depth Detector", list(Image3DVis.DepthLibrary.DEPTH_FUNCS.keys()))
+    USERINPUT_DepthScale = st.number_input("Depth Scale", 0.0, 2.0, 0.5, 0.1)
+    USERINPUT_applyTexture = st.checkbox("Apply Texture", value=True)
+
+    # Process Inputs
+    if st.button("Visualise"):
+        imgSize = (250, 250)
+        keepAspectRatio = True
+        
+        DepthFunc = Image3DVis.DepthLibrary.DEPTH_FUNCS[USERINPUT_DepthFuncName]
+        DepthOptions = {
+            'mods': ['Normalise'],#, 'Reverse']
+            'NormaliseRange': [0, 1],
+            'DepthRange': [0, 255]
+        }
+        DepthScale = USERINPUT_DepthScale
+        DepthLimits = None
+
+        Widgets = {
+            "input": st.empty(),
+            "output": st.empty()
+        }
+        VisFunc = functools.partial(
+            VideoVis_3D, imgSize=imgSize, keepAspectRatio=keepAspectRatio, 
+            DepthFunc=DepthFunc, DepthOptions=DepthOptions, DepthScale=DepthScale, DepthLimits=DepthLimits, 
+            Widgets=Widgets, applyTexture=USERINPUT_applyTexture
+        )
+
+        Image3DVis.VideoVis_Framewise(VisFunc, USERINPUT_Video, None, -1)
     
 
 #############################################################################################################################
