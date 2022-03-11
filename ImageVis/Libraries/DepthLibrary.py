@@ -6,7 +6,10 @@ Depth Functions
 import cv2
 import numpy as np
 
-from .MonoDepth import calc_depth
+try:
+    from .MonoDepth import calc_depth
+except ImportError:
+    print("AI Depth will not work.")
 
 # Main Functions
 def DepthFunc_GrayScaleDepth(I):
