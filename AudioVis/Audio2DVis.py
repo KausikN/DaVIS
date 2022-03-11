@@ -5,9 +5,12 @@ https://analyticsindiamag.com/step-by-step-guide-to-audio-visualization-in-pytho
 
 # Imports
 from scipy import signal
-import librosa
-import librosa.display
-import soundfile
+try:
+    import librosa
+    import librosa.display
+    import soundfile
+except ImportError:
+    print("Audio Vis will not work.")
 # import wave
 # import pyaudio
 import numpy as np
