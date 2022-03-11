@@ -183,16 +183,15 @@ def image_2d_vis():
 
     # Load Inputs
     USERINPUT_Image = UI_LoadImage()
+    # Original
+    st.markdown("## Image")
+    st.image(USERINPUT_Image, caption="Original", use_column_width=True)
 
     # Process Inputs
     if st.button("Visualise"):
         I_r, I_g, I_b, I_gray, I_dom, I_low, histData, I_histenhanced = ImageVis_2D(USERINPUT_Image)
 
         # Display Outputs
-        st.markdown("## Image")
-        # Original
-        st.image(USERINPUT_Image, caption="Original", use_column_width=True)
-
         st.markdown("## Visualisations")
         # RGB Gray
         col1, col2, col3 = st.columns(3)
@@ -225,6 +224,9 @@ def image_3d_vis():
     USERINPUT_Image = UI_LoadImage()
     USERINPUT_DepthFuncName = st.selectbox("Depth Detector", list(Image3DVis.DepthLibrary.DEPTH_FUNCS.keys()))
     USERINPUT_DepthScale = st.number_input("Depth Scale", 0.0, 2.0, 0.5, 0.1)
+    # Original
+    st.markdown("## Image")
+    st.image(USERINPUT_Image, caption="Original", use_column_width=True)
 
     # Process Inputs
     if st.button("Visualise"):
@@ -243,10 +245,6 @@ def image_3d_vis():
         I, Depths, I_depth, modelFig = ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, DepthOptions, DepthScale, DepthLimits)
         
         # Display Outputs
-        st.markdown("## Image")
-        # Original
-        st.image(USERINPUT_Image, caption="Original", use_column_width=True)
-
         st.markdown("## Visualisations")
         # Depth Map
         st.image(I_depth, caption="Depth Map", use_column_width=True)
@@ -261,14 +259,15 @@ def audio_2d_vis():
 
     # Load Inputs
     AUDIO, SAMPLE_RATE = UI_LoadAudio()
+    # Original
+    st.markdown("## Audio")
+    st.audio(open(SAVE_CUTAUDIO_PATH, "rb").read(), format="audio/wav", start_time=0)
 
     # Process Inputs
     if st.button("Visualise"):
         fig_WAVE, fig_MAXFREQ, SPECTROGRAM_norm = AudioVis_2D(AUDIO, SAMPLE_RATE)
 
         # Display Outputs
-        st.markdown("## Audio")
-        st.audio(open(SAVE_CUTAUDIO_PATH, "rb").read(), format="audio/wav", start_time=0)
         st.markdown("## Visualisations")
         st.plotly_chart(fig_WAVE, use_container_width=True)
         st.image(SPECTROGRAM_norm, caption="Spectrogram", use_column_width=True)
@@ -287,6 +286,9 @@ def image_point_vis():
     USERINPUT_TimeIntervalStart = col1.number_input("Time Interval Start", 0.0, 100.0, 0.0, 0.1)
     USERINPUT_TimeIntervalEnd = col2.number_input("Time Interval End", 0.1, 100.0, 1.0, 0.1)
     USERINPUT_frames = col3.number_input("Num Frames", 1, 90, 30, 1)
+    # Original
+    st.markdown("## Image")
+    st.image(USERINPUT_Image, caption="Original", use_column_width=True)
 
     # Process Inputs
     if st.button("Visualise"):
@@ -294,10 +296,6 @@ def image_point_vis():
         ImagePoint_Effect(USERINPUT_Image, USERINPUT_EffectName, timeInterval, USERINPUT_frames)
 
         # Display Outputs
-        st.markdown("## Image")
-        # Original
-        st.image(USERINPUT_Image, caption="Original", use_column_width=True)
-
         st.markdown("## Visualisations")
         # Point Effect
         st.image(SAVE_POINTGIF_PATH, caption="Point Effect", use_column_width=True)
