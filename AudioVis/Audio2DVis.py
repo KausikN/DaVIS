@@ -9,7 +9,7 @@ try:
     import librosa
     import librosa.display
     import soundfile
-except ImportError:
+except Exception as e:
     print("Audio Vis will not work.")
 # import wave
 # import pyaudio

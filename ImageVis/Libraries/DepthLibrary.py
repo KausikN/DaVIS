@@ -8,7 +8,7 @@ import numpy as np
 
 try:
     from .MonoDepth import calc_depth
-except ImportError:
+except Exception as e:
     print("AI Depth will not work.")
 
 # Main Functions
