@@ -4,9 +4,7 @@ Visualise Images in 3D by introducing depth to pixels based on customisable fact
 
 # Imports
 import os
-from turtle import width
 import cv2
-from matplotlib.axis import XAxis
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.graph_objects as graph
