@@ -70,7 +70,7 @@ def SaveCache():
     json.dump(CACHE, open(CACHE_PATH, 'w'), indent=4)
 
 # Main Functions
-@st.cache()
+@st.cache
 def ImageVis_2D(USERINPUT_Image):
     # RGB Gray
     I_r, I_g, I_b = Image2DVis.ImageVis_RGBChannels(USERINPUT_Image, display=False)
@@ -83,7 +83,7 @@ def ImageVis_2D(USERINPUT_Image):
     I_histenhanced = Image2DVis.ImageHistogram_Enhance(USERINPUT_Image, histData, selectRange=[0, 255], display=False)
     return I_r, I_g, I_b, I_gray, I_dom, I_low, histData, I_histenhanced
 
-@st.cache()
+@st.cache
 def ImageVis_3D(USERINPUT_Image, imgSize, keepAspectRatio, DepthFunc, DepthOptions, DepthScale, DepthLimits):
     I = Image3DVis.ResizeImage(USERINPUT_Image, imgSize, keepAspectRatio)
     Depths = Image3DVis.CalculateDepth(I, DepthFunc, DepthOptions)
