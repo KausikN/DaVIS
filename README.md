@@ -16,6 +16,7 @@
 
     - If you want to change to another app, simply click on View Other Projects in top left and choose any other project and load and deploy.
 
+# Visualisations
 ## AudioVis
 ### Audio Spectrogram Visualiser
    - Plots spectrograms of audio files
