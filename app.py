@@ -51,6 +51,7 @@ CACHE_PATH = "StreamLitGUI/CacheData/Cache.json"
 DEFAULT_IMAGE_PATH = "TestData/TestImgs/Arch.jpeg"
 DEFAULT_AUDIO_PATH = "TestData/TestAudio/DN.mp3"
 DEFAULT_VIDEO_PATH = "TestData/TestVideos/Test_Animation.wmv"
+DEFAULT_VIDEO_URL = "http://192.168.0.102:8080/shot.jpg"
 
 SAVE_POINTGIF_PATH = "StreamLitGUI/CacheData/PointGif.gif"
 SAVE_AUDIO_PATH = "StreamLitGUI/CacheData/CacheAudio.mp3"
@@ -209,7 +210,7 @@ def UI_LoadVideo():
         USERINPUT_VideoReader = functools.partial(USERINPUT_VideoReader, USERINPUT_VideoPath)
     # Video URL
     elif USERINPUT_VideoInputChoice == "Video URL":
-        USERINPUT_VideoURL = st.text_input("Video URL", "http://192.168.0.102:8080/shot.jpg")
+        USERINPUT_VideoURL = st.text_input("Video URL", DEFAULT_VIDEO_URL)
         USERINPUT_VideoReader = functools.partial(USERINPUT_VideoReader, USERINPUT_VideoURL)
     # Webcam
     else:
