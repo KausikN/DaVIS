@@ -47,15 +47,24 @@ def HomePage():
 
 #############################################################################################################################
 # Repo Based Vars
-CACHE_PATH = "StreamLitGUI/CacheData/Cache.json"
-DEFAULT_IMAGE_PATH = "TestData/TestImgs/Arch.jpeg"
-DEFAULT_AUDIO_PATH = "TestData/TestAudio/DN.mp3"
-DEFAULT_VIDEO_PATH = "TestData/TestVideos/Test_Animation.wmv"
-DEFAULT_VIDEO_URL = "http://192.168.0.102:8080/shot.jpg"
-
-SAVE_POINTGIF_PATH = "StreamLitGUI/CacheData/PointGif.gif"
-SAVE_AUDIO_PATH = "StreamLitGUI/CacheData/CacheAudio.mp3"
-SAVE_CUTAUDIO_PATH = "StreamLitGUI/CacheData/CacheCutAudio.wav"
+PATHS = {
+    "cache": "StreamLitGUI/CacheData/Cache.json",
+    "default": {
+        "example": {
+            "image": "TestData/TestImgs/Arch.jpeg",
+            "audio": "TestData/TestAudio/DN.mp3",
+            "video": "TestData/TestVideos/Test_Animation.wmv"
+        },
+        "save": {
+            "pointgif": "StreamLitGUI/CacheData/PointGif.gif",
+            "audio": "StreamLitGUI/CacheData/CacheAudio.mp3",
+            "cutaudio": "StreamLitGUI/CacheData/CacheCutAudio.wav"
+        },
+        "url": {
+            "video": "http://192.168.0.102:8080/shot.jpg"
+        }
+    }
+}
 
 # Util Vars
 CACHE = {}
@@ -64,11 +73,11 @@ INPUTREADERS_VIDEO = Image3DVis.INPUTREADERS_VIDEO
 # Util Functions
 def LoadCache():
     global CACHE
-    CACHE = json.load(open(CACHE_PATH, 'r'))
+    CACHE = json.load(open(PATHS["cache"], 'r'))
 
 def SaveCache():
     global CACHE
-    json.dump(CACHE, open(CACHE_PATH, 'w'), indent=4)
+    json.dump(CACHE, open(PATHS["cache"], 'w'), indent=4)
 
 # Main Functions
 @st.cache
@@ -133,7 +142,7 @@ def ImagePoint_Effect(USERINPUT_Image, USERINPUT_EffectName, timeInterval, frame
     plotData = False
     saveData = {
         "save": True,
-        "path": SAVE_POINTGIF_PATH,
+        "path": PATHS["default"]["save"]["pointgif"],
         "fps": 30,
         "figSize": [320, 240]
     }
@@ -177,7 +186,7 @@ def UI_LoadImage():
     if USERINPUT_ImageData is not None:
         USERINPUT_ImageData = USERINPUT_ImageData.read()
     else:
-        USERINPUT_ImageData = open(DEFAULT_IMAGE_PATH, 'rb').read()
+        USERINPUT_ImageData = open(PATHS["default"]["example"]["image"], 'rb').read()
     USERINPUT_ImageData = cv2.imdecode(np.frombuffer(USERINPUT_ImageData, np.uint8), cv2.IMREAD_COLOR)
     USERINPUT_Image = cv2.cvtColor(USERINPUT_ImageData, cv2.COLOR_BGR2RGB)
     return USERINPUT_Image
@@ -185,16 +194,16 @@ def UI_LoadImage():
 def UI_LoadAudio():
     USERINPUT_AudioData = st.file_uploader("Upload Audio", ['mp3'])
     if USERINPUT_AudioData is not None:
-        open(SAVE_AUDIO_PATH, 'wb').write(USERINPUT_AudioData.read())
-        USERINPUT_AudioPath = SAVE_AUDIO_PATH
+        open(PATHS["default"]["save"]["audio"], 'wb').write(USERINPUT_AudioData.read())
+        USERINPUT_AudioPath = PATHS["default"]["save"]["audio"]
     else:
-        USERINPUT_AudioPath = DEFAULT_AUDIO_PATH
+        USERINPUT_AudioPath = PATHS["default"]["example"]["audio"]
 
     col1, col2 = st.columns(2)
     OFFSET = col1.number_input("Start Time", 0.0, 100.0, 0.0, 0.1)
     DURATION = col2.number_input("Duration", 0.1, 10.0, 1.0, 0.1)
     AUDIO, SAMPLE_RATE = Audio2DVis.LoadAudio(USERINPUT_AudioPath, duration=DURATION, offset=OFFSET)
-    Audio2DVis.SaveAudio(AUDIO, SAMPLE_RATE, SAVE_CUTAUDIO_PATH)
+    Audio2DVis.SaveAudio(AUDIO, SAMPLE_RATE, PATHS["default"]["save"]["cutaudio"])
 
     return AUDIO, SAMPLE_RATE
 
@@ -206,11 +215,11 @@ def UI_LoadVideo():
     if USERINPUT_VideoInputChoice == "Upload Video File":
         USERINPUT_VideoPath = st.file_uploader("Upload Video", ['avi', 'mp4', 'wmv'])
         if USERINPUT_VideoPath is None:
-            USERINPUT_VideoPath = DEFAULT_VIDEO_PATH
+            USERINPUT_VideoPath = PATHS["default"]["example"]["video"]
         USERINPUT_VideoReader = functools.partial(USERINPUT_VideoReader, USERINPUT_VideoPath)
     # Video URL
     elif USERINPUT_VideoInputChoice == "Video URL":
-        USERINPUT_VideoURL = st.text_input("Video URL", DEFAULT_VIDEO_URL)
+        USERINPUT_VideoURL = st.text_input("Video URL", PATHS["default"]["url"]["video"])
         USERINPUT_VideoReader = functools.partial(USERINPUT_VideoReader, USERINPUT_VideoURL)
     # Webcam
     else:
@@ -307,7 +316,7 @@ def audio_2d_vis():
     AUDIO, SAMPLE_RATE = UI_LoadAudio()
     # Original
     st.markdown("## Audio")
-    st.audio(open(SAVE_CUTAUDIO_PATH, "rb").read(), format="audio/wav", start_time=0)
+    st.audio(open(PATHS["default"]["save"]["cutaudio"], "rb").read(), format="audio/wav", start_time=0)
 
     # Process Inputs
     if st.button("Visualise"):
@@ -344,7 +353,7 @@ def image_point_vis():
         # Display Outputs
         st.markdown("## Visualisations")
         # Point Effect
-        st.image(SAVE_POINTGIF_PATH, caption="Point Effect", use_column_width=True)
+        st.image(PATHS["default"]["save"]["pointgif"], caption="Point Effect", use_column_width=True)
 
 def video_3d_vis():
     # Title
