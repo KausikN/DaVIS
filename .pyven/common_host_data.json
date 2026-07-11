@@ -8,5 +8,8 @@
         "TestData/TestAudio/DN.mp3",
         "TestData/TestImgs/Arch.jpeg",
         "TestData/TestVideos/Test_Animation.wmv"
-    ]
+    ],
+    "streamlit": {
+        "link": ""
+    }
 }
